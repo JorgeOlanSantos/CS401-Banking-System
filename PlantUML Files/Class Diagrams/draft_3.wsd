@@ -1,0 +1,166 @@
+@startuml Banking System
+
+/'
+General Notes
+--------------------------------------------------
+'/
+
+
+
+/'
+Major Classes
+--------------------------------------------------
+'/
+class Login {
+    - ID: String
+    - password: String
+    + Login(String, String)
+    + getID(): String
+    + getPassword(): String
+    + setID(String): void
+    + setPassword(String): void
+}
+
+class Customer {
+    - customerID: String
+    - name: String
+    - pin: short
+    - loggedIn/online: boolean
+    + Customer(Login login, String name, short pin)
+    + Customer(String ID, String password, String name, short pin)
+    + getID(): String
+    + getName(): String
+    + getPin(): short
+    + validateLogin(Login): boolean
+}
+
+class Account {
+    - accountID: String
+    - balance: double
+    + Account(Customer, double)
+    + Account(Vector<Customer>, double)
+    + getAccountID(): String
+    + getBalance(): double
+    + getCustomers(): Vector<Customer>
+    + addCustomer(Customer)
+    + removeCustomer(Customer)
+}
+
+class Teller {
+    - name: String
+    + getName(): String
+    + setName(String): void
+}
+
+class TellerSystem {
+    - inUse: boolean
+    + login(Login): Teller
+    + logout()
+    + getCustomer(String): Customer
+    + getAccount(String): Account
+    + getAccounts(): Vector<Account>
+    + getAccounts(Customer): Vector<Account>
+    + createAccount()
+    + createCustomer()
+    + closeAccount(Login, accountID)
+    + removeCustomer(Login)
+    + deposit(Account, double)
+    + withdraw(Account, Login, double)
+}
+note right: acts as intermediary
+
+class ATM {
+    - accoundID: String
+    - ATMbalance: double
+    - inUse: boolean
+    + ATM()
+    + getAccountID(): String
+    + setAccoundID(String): void
+    + getInUse(): boolean
+    + addBalance(double): void
+    + login(Login): Customer
+    + logout()
+    + requestAccounts(Customer): Vector<Account>
+    + requestDeposit(Account, Customer, double): boolean
+    + requestWithdraw(Account, Customer, double): boolean
+    + requestHistory(Account, Customer): Vector<Action>
+    + requestTransfer(Account, Customer, double, String)
+}
+
+class BankingSystem {
+    + BankingSystem()
+    + createAccount()
+    + createCustomer()
+    + closeAccount(Account)
+    + deleteCustomer(Customer)
+    + readData()
+    + saveData()
+    + getCustomer(Login): Customer
+    + getAccounts(Customer): Vector<Account>
+    + deposit(Account, double): void
+    + withdraw(Account, double): boolean
+    + transfer(Account, Account, double): boolean
+}
+note top: acts as backend, other classes and systems communicate with this
+
+
+
+/'
+Other Classes
+--------------------------------------------------
+'/
+enum ActionType {
+    WITHDRAW
+    DEPOSIT
+    TRANSACTION
+    OTHER
+}
+note right: maybe only include\ndeposit and withdraw to simplify
+
+class Action {
+    - date: Date
+    - description: String
+    + Action(ActionType, String)
+    + getDate(): Date
+    + getActionType(): ActionType
+    + getMsg(): String
+}
+note top: use to show account history
+
+
+
+/'
+Class Relations
+--------------------------------------------------
+'/
+Account "1..*" *-d- Customer
+Account "1..*" *-d- Action
+
+Action "1" *-d- ActionType
+
+BankingSystem "0..*" *-d- "1" Customer
+BankingSystem "0..*" *-d- "1" Account
+BankingSystem "0..*" *-d- "1" TellerSystem
+BankingSystem "0..*" *-d- "1" ATM
+
+Customer -u-* "0..1" ATM
+
+Login -u-* "1" Customer
+Login -u-* "1" Teller
+Login -u-* "1" ATM
+Login -u-* "1" TellerSystem
+
+Teller -u- TellerSystem
+
+
+/'
+Styling
+--------------------------------------------------
+makes the lines straight
+'/
+skinparam linetype polyline
+skinparam linetype ortho
+
+
+
+@enduml

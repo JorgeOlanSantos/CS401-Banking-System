@@ -1,0 +1,39 @@
+@startuml Architecture Diagram
+skinparam componentStyle rectangle
+
+'#Objects
+'#--------------------------------------------------
+package "Clients" {
+    [ATM] as atm
+    note bottom of atm: Customer ATM GUI
+    [Teller] as teller
+    note bottom of teller: Teller GUI
+}
+
+package "Server" {
+    [Server Software] as serversoftware
+}
+
+database "Data" {
+    [Bank Data]
+}
+note bottom of Data: data is stored locally in a text file
+
+
+'#Relations
+'#--------------------------------------------------
+Clients -u- Server : TCP/IP
+serversoftware -r- Data
+
+
+'#Styling
+'#--------------------------------------------------
+skinparam componentStyle rectangle
+
+!theme vibrant
+
+'#remove line curves but the lines are still not straight
+'skinparam linetype polyline
+'#make the lines straight
+skinparam linetype ortho
+@enduml
