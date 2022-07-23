@@ -1,0 +1,103 @@
+@startuml Banking System
+'#Major Classes
+'#--------------------------------------------------
+class BankCustomer {
+    - name: String
+    - id: int
+    - pin: short
+    - access: boolean
+    + requestStatement()
+    + checkBalance()
+    + transfer()
+    + transaction()
+}
+
+class BankAccount {
+    - balance: double
+    - customers: Vector<BankCustomer>
+    - type: String
+    + getBalance()
+    + setBalance()
+    + addMember()
+    + removeMember()
+}
+
+class ATMSystem {
+    - atmNumber: int
+    - atmBalance: double
+    + getAccount()
+    + getBalance()
+    + setBalance()
+    + deposit()
+    + withdraw()
+    + transfer()
+    + getATMBalance()
+    + setATMBalance()
+    + login()
+    + logout()
+}
+
+class BankSystem {
+    + login()
+    + addAccount()
+    + closeAccount()
+    + getAccount()
+    + getBalance()
+    + setBalance()
+    + transfer()
+    + transaction()
+    + deposit()
+    + withdraw()
+}
+
+class BankTeller {
+    - id: String
+    - password: String
+    + login()
+    + logout()
+    + addAccount()
+    + closeAccount()
+    + checkBalance()
+    + transfer()
+    + transaction()
+    + getCustomerInfo()
+}
+
+class Transaction {
+    - transactionNumber: int
+    - type: String
+    - date: String?
+    - time: String
+    - money: int
+    - fromAccount: String/int
+    - toAccount: String/int
+    - newBalance: int
+    - description: String
+    + Transaction()
+    + gettransactionNumber()
+    + getType()
+    + getData()
+    + getTime()
+    .. Getters and Setters ..
+}
+note bottom: SUGGESTED
+
+
+'#Class Relations
+'#--------------------------------------------------
+BankAccount <-d- BankCustomer
+ATMSystem <-l- BankCustomer
+BankSystem <--> ATMSystem
+BankTeller -l-> BankSystem
+
+
+
+'#Styling
+'#--------------------------------------------------
+!theme reddress-darkgreen
+
+'#remove line curves but the lines are still not straight
+'skinparam linetype polyline
+'#make the lines straight
+skinparam linetype ortho
+@enduml

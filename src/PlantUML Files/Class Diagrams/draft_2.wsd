@@ -1,0 +1,121 @@
+@startuml Banking System
+
+/'
+General Notes
+--------------------------------------------------
+'/
+note "does not currently include where or how functions like withdraw should be handled" as N1
+
+
+
+/'
+Major Classes
+--------------------------------------------------
+'/
+class Login {
+    - ID: String
+    - password: String
+    + Login(String, String)
+    + getID(): String
+    + getPassword(): String
+    + setID(String): void
+    + setPassword(String): void
+}
+
+class Customer {
+    - name: String
+    - pin: short
+    - loggedIn: boolean
+    + Customer(Login login, String name, short pin)
+    + Customer(String ID, String password, String name, short pin)
+}
+
+class Account {
+    - balance: double
+    + Account(Customer, double)
+    + Account(Vector<Customer>, double)
+    + getBalance(): double
+    + getCustomers(): Vector<Customer>
+    + addCustomer(Customer)
+    + removeCustomer(Customer)
+}
+
+class Teller {
+    - name: String
+    + getName(): String
+    + setName(String): void
+}
+
+class ATM {
+    - balance: double
+    + withdraw(Login)
+}
+
+class BankingSystem {
+    + BankingSystem()
+    + createAccount()
+    + readData()
+    + saveData()
+    + getCustomers(Teller)
+    + getAccounts(Teller)
+}
+note top: acts as backend, other classes and systems communicate with this
+
+
+
+/'
+Other Classes
+--------------------------------------------------
+'/
+enum ActionType {
+    WITHDRAW
+    DEPOSIT
+    TRANSACTION
+    OTHER
+}
+
+class Action {
+    - date: Date
+    - description: String
+    + Action(ActionType, String)
+    + getDate(): Date
+    + getActionType(): ActionType
+    + getMsg(): String
+}
+note top: use to show account history, maybe only include\ndeposit and withdraw to simplify
+
+
+
+/'
+Class Relations
+--------------------------------------------------
+'/
+N1 -r- BankingSystem
+
+Account "1..*" *-d- Customer
+Account "1..*" *-d- Action
+
+Login -u-* "1" Customer
+Login -u-* "1" Teller
+Login -u-* "1" ATM
+
+BankingSystem "0..*" *-d- Customer
+BankingSystem "0..*" *-d- Account
+BankingSystem "0..*" *-d- Teller
+BankingSystem "0..*" *-d- ATM
+
+Action "1" *-d- ActionType
+
+
+
+/'
+Styling
+--------------------------------------------------
+makes the lines straight
+'/
+skinparam linetype polyline
+skinparam linetype ortho
+
+
+
+@enduml
