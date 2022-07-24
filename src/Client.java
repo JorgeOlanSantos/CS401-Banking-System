@@ -12,21 +12,6 @@ public class Client {
 		String input = "", IP = "localhost", fullIP = "";
 		int port = 7777;
 		
-		/*
-		System.out.print("Enter server IP (enter nothing for localhost): ");
-		IP = sc.nextLine();
-		if (IP.equals("")) {
-			IP = "localhost";
-		}
-		System.out.print("Enter server port (enter nothing for 7777): ");
-		input = sc.nextLine();
-		if (input.equals("")) {
-			port = 7777;
-		} else {
-			port = Integer.parseInt(input);
-		}
-		*/
-		
 		try (Socket socket = new Socket(IP, port)) {
 			IP = socket.getInetAddress().getHostAddress().trim();
 			fullIP = IP + ":" + port;
@@ -36,29 +21,10 @@ public class Client {
 			ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 	        ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
 	        
-	        // messages
-	        Message clientMsg = new Message(), serverMsg = new Message();
-	        
-	        // this is where you would have the user do something like input username/password,
-	        // as an example I am just having the user enter 'login'
-	        /*
-	        do {
-	        	System.out.print("Enter \'login\' to login: ");
-	        	input = sc.nextLine();
-	        } while (!input.equalsIgnoreCase("login"));
-	        */
-	        
-	        
-			// login message
-			//clientMsg = new Message("login", "sent", "login message");
-			//System.out.println("Senging Logging Request To Server...");
-			
-			// send login message
-			//objectOutputStream.writeObject(clientMsg);
 			
 			//
+	        int option;
 			do {
-				int option;
 				boolean optionSelected = false;
 				do {
 					
@@ -84,13 +50,13 @@ public class Client {
 				case 1:
 					System.out.print("Enter withdraw amount: ");
 					amount = Double.parseDouble(sc.nextLine());
-					WithdrawRequest withdraw = new WithdrawRequest(amount, "test");
+					RequestWithdraw withdraw = new RequestWithdraw(amount, "none", "test");
 					objectOutputStream.writeObject(withdraw);
 					break;
 				case 2:
 					System.out.print("Enter deposit amount: ");
 					amount = Double.parseDouble(sc.nextLine());
-					DepositRequest deposit = new DepositRequest(amount, "test");
+					RequestDeposit deposit = new RequestDeposit(amount, "none", "test");
 					objectOutputStream.writeObject(deposit);
 					break;
 				case 3:
@@ -98,7 +64,7 @@ public class Client {
 					amount = Double.parseDouble(sc.nextLine());
 					System.out.print("Enter account name: ");
 					String account = sc.nextLine();
-					TransferRequest transfer = new TransferRequest(amount, account, "test");
+					RequestTransfer transfer = new RequestTransfer(amount, account, "second account", "test");
 					objectOutputStream.writeObject(transfer);
 					break;
 				case 4:
@@ -116,7 +82,7 @@ public class Client {
 					break;
 				}
 				
-			} while (!(serverMsg.getType().equals("logout") && serverMsg.getStatus().equals("success")));
+			} while (option != 4);
 			sc.close();
 			
 			socket.close();

@@ -86,13 +86,13 @@ public class Server {
 						
 						switch (clientRequest.getType()) {
 						case WITHDRAW:
-							System.out.println(((WithdrawRequest)clientRequest).toString());
+							System.out.println(((RequestWithdraw)clientRequest).toString());
 							break;
 						case DEPOSIT:
-							System.out.println(((DepositRequest)clientRequest).toString());
+							System.out.println(((RequestDeposit)clientRequest).toString());
 							break;
 						case TRANSFER:
-							System.out.println(((TransferRequest)clientRequest).toString());
+							System.out.println(((RequestTransfer)clientRequest).toString());
 							break;
 						default:
 							break;

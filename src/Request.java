@@ -1,27 +1,52 @@
 import java.io.Serializable;
 import java.util.Date;
 
+enum RequestType {
+	CLOSEACCOUNT,
+	CREATEACCOUNT,
+	CREATECUSTOMER,
+	DEPOSIT,
+	GETACCOUNT,
+	//GETALLACCOUNTS,
+	//GETALLCUSTOMERS,
+	GETCUSTOMER,
+	GETCUSTOMERACCOUNTS,
+	LOGIN,
+	LOGOUT,
+	REMOVECUSTOMER,
+	TRANSFER,
+	WITHDRAW
+}
+
+enum Status {
+	PENDING,
+	FAIL,
+	SUCCESS
+}
+
 @SuppressWarnings("serial")
 abstract class Request implements Serializable {
 	protected RequestType type;
 	protected Date date;
-	protected String description;
-	
-	
+	protected Status status; 
 	
 	Request() {
 		type = null;
-		date = null;
-		description = null;
+		date = new Date();
+		status = Status.PENDING;
 	}
 	
+	Request(RequestType type) {
+		this.type = type;
+		date = new Date();
+		status = Status.PENDING;
+	}
 	
 	Request(RequestType type, String description) {
 		this.type = type;
 		this.date = new Date();
-		this.description = description;
+		status = Status.PENDING;
 	}
-	
 	
 	public RequestType getType() {
 		return type;
@@ -31,11 +56,15 @@ abstract class Request implements Serializable {
 		return date;
 	}
 	
-	public String getDescription() {
-		return description;
+	public Status getStatus() {
+		return status;
+	}
+	
+	public void setStatus(Status newStatus) {
+		status = newStatus;
 	}
 	
 	public String toString() {
-		return "[" + date + "] " + type + " - description:" + description;
+		return "[" + date + "] " + type + " - " + status;
 	}
 }
