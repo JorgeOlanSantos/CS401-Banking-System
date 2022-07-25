@@ -2,9 +2,9 @@ import java.util.Vector;
 
 public class Customer extends User { // Class for banking system customer
 	// Inherited attributes
-	String name;                    // Customer name
-	String ID;                      // Customer ID number
-	Vector<ActionType> permissions; // Customer permissions
+//	String name;                    // Customer name
+//	String ID;                      // Customer ID number
+//	Vector<ActionType> permissions; // Customer permissions
 	
 	// Class attributes
 	String address;   // Customer's address(?)
@@ -28,30 +28,6 @@ public class Customer extends User { // Class for banking system customer
 		setName(name); // Set name ? 
 		setPin(pin);   // Set pin ?
 	}
-	
-	// Inherited methods
-	
-	// Getters
-	
-	public String getName() { // get customer name
-		return name;
-	}
-	
-	public String getID() { // get customer ID
-		return ID;
-	}
-	
-	// Setters
-	
-	public void setName(String name) { // set customer name
-		this.name = name;
-	}
-	
-	public void setID(String ID) { // set customer ID
-		this.ID = ID;
-	}
-	
-	// Class methods
 	
 	// Getters
 	
@@ -81,5 +57,12 @@ public class Customer extends User { // Class for banking system customer
 		this.loggedIn = loggedIn;
 	}
 	
-	
+	// Inherited methods
+	// Getters
+//	public String getName() { return name; } // get user name
+//	public String getID() { return ID; }     // get user ID
+		
+	// Setters
+//	public void setName(String name) { this.name = name; } // set user name
+//	public void setID(String ID) { this.ID = ID; }         // set user ID
 }
