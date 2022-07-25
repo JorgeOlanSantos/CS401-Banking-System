@@ -31,6 +31,8 @@ public class Customer extends User { // Class for banking system customer
 	
 	// Inherited methods
 	
+	// Getters
+	
 	public String getName() { // get customer name
 		return name;
 	}
@@ -38,6 +40,8 @@ public class Customer extends User { // Class for banking system customer
 	public String getID() { // get customer ID
 		return ID;
 	}
+	
+	// Setters
 	
 	public void setName(String name) { // set customer name
 		this.name = name;
@@ -48,6 +52,8 @@ public class Customer extends User { // Class for banking system customer
 	}
 	
 	// Class methods
+	
+	// Getters
 	
 	public String getAddress() { // get customer address
 		return address;
@@ -60,6 +66,8 @@ public class Customer extends User { // Class for banking system customer
 	public boolean getloggedIn() { // get customer loggedIn
 		return loggedIn;
 	}
+	
+	// Setters
 	
 	public void setAddress(String address) { // set customer address
 		this.address = address;
