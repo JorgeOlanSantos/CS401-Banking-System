@@ -3,10 +3,11 @@ import java.util.Scanner;
 import java.util.*;
 import java.math.*;
 
-public class Account extends Customer {
+public class Account {
 	
 	String accountID;
 	double balance;
+	Vector<String> customerIDS;
 
 	
 	public Account(String customerAcc, double customerBal)
@@ -34,16 +35,15 @@ public class Account extends Customer {
 	}
 	
 	// Getter method for Customers as a vector of type String.
-	Vector<String> getCustomers()
+	Vector<String> getCustomerIDS()
 	{
-		Vector mainVector = new Vector();
-		return mainVector;
+		return customers;
 	}
 	
 	// Method should allow users to make a deposit.
-	void deposit(double balance)
+	void deposit(double amount)
 	{
-	
+		/*
 		double depositAmount = 0;															// Initializing input deposit to zero.
 		double currBalance = balance;														// Setting the temporary balance to the inserted balance.
 		
@@ -57,12 +57,15 @@ public class Account extends Customer {
 		
 		balance = currBalance + depositAmount;	
 		sc.close();																			// Closing scanner
+		*/
+		
+		balance += amount;
 	}
 	
 	// Method should allow users to make a withdraw
-	boolean withdraw(double balance)
+	boolean withdraw(double amount)
 	{
-		
+		/*
 		double withdrawAmount = 0;															// Initializing input withdraw to zero.											
 		double currBalance = balance;														// Setting the temporary balance to the inserted balance.
 		
@@ -99,12 +102,17 @@ public class Account extends Customer {
 			balance = currBalance - withdrawAmount;
 			return true;
 		}
+		*/
+		
+		balance -= amount;
+		
 	}
 	
 	// The purpose of this method is to add a customer to a pre-existing account.
-	void addCustomer(Vector<Customer> mainVector)
+	void addCustomerID(String customerID)
 	{
 		
+		/*
 		String name;																		// String variable declaration.
 		boolean isAdded = false;															// Boolean variable declaration.
 		
@@ -135,14 +143,18 @@ public class Account extends Customer {
 		isAdded = true;																		// Setting the boolean variable to true.
 		
 		mainVector = tempVector;															// Setting the main vector to the updated vector.
+		*/
+		
+		customerIDS.add(customerID);
 		
 	}
 	
 	
 	// Method is designed to remove a customer from an account.
-	void removeCustomer(Vector<Customer> mainVector)
+	bool removeCustomer(String customerID)
 	{
 		
+		/*
 		String text;																		// String variable declaration.
 		boolean isRemoved = false;															// Boolean variable to keep track of removal status.
 		
@@ -178,5 +190,15 @@ public class Account extends Customer {
 			System.out.println("Error. Customer not found.\n");								// System output of unsuccessful removal.
 		}
 		
+		*/
+		
+		String removedCustomer = customerIDS.remove(customerID);
+		
+		// example of how to do different things depening on if the customerID was found and removed from the list
+		if (removedCustomer) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
