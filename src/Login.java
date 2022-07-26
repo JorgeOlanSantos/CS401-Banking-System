@@ -12,12 +12,16 @@ public class Login {
 		return ID;
 	}
 	
-	public boolean verifyLogin(Login testLogin) {
+	public String getPassword() { // get password
+		return password;
+	}
+	
+	public boolean verifyLogin(Login testLogin) { // To verify login
 		return this.equals(testLogin);
 	}
 	
 	// for testing
 	public String toString() {
-		return "ID:" + ID + ", password:" + password;
+		return "ID: " + ID + ", password: " + password;
 	}
 }
