@@ -1,13 +1,15 @@
-import java.util.Vector;
+
+import java.util.Vector; // To use Vectors
 
 public class Customer extends User { // Class for banking system customer
 	// Inherited attributes
 //	String name;                    // Customer name
 //	String ID;                      // Customer ID number
 //	Vector<ActionType> permissions; // Customer permissions
+//	Login login;                    // Login object
 	
 	// Class attributes
-	String address;   // Customer's address(?)
+	String address;   // Customer's home address(?)
 	short pin;        // Customer pin(?)
 	boolean loggedIn; // Whether customer is logged into ATM/bank system(?)
 	
@@ -15,18 +17,26 @@ public class Customer extends User { // Class for banking system customer
 	
 	public Customer(Login login, String name, short pin) { // Parameterized constructor
 		
-		// Do something with Login object (for logging in as customer?)
-		setName(name); // Set name ? 
+		super(name, login.getID(), login.getPassword()); // Sets customer name, ID, password
+		
+//		setName(name); // Set name ? 
 		setPin(pin);   // Set pin ?
+		
+		// Set address also ?
 	}
 	
-	public Customer(String ID, String password, String name, short pin) { // Parameterized constructor
+	// User constructor initialized
+	public Customer(String name, String ID, String password, short pin, String address) { // Parameterized constructor
 		
-		setID(ID);     // Set ID ? // Use in Login object?
-		                           // Use password in Login object?
+		super(name, ID, password); // Sets customer name, ID, password, login
 		
-		setName(name); // Set name ? 
-		setPin(pin);   // Set pin ?
+//		setName(name);       // Set customer name ? 
+//		setID(ID);           // Set customer ID
+//		this.login = super.login(ID, password); // Initialize login object
+		
+		setPin(pin);         // Set customer pin ?
+		setAddress(address); // Set customer address
+		
 	}
 	
 	// Getters
@@ -39,7 +49,7 @@ public class Customer extends User { // Class for banking system customer
 		return pin;
 	}
 	
-	public boolean getloggedIn() { // get customer loggedIn
+	public boolean getLoggedIn() { // get customer loggedIn
 		return loggedIn;
 	}
 	
