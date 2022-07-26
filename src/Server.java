@@ -11,8 +11,10 @@ public class Server {
 
 	public static void main(String[] args) throws IOException {
 		
-		Scanner sc = new Scanner(System.in);
-		String input;
+		BankingSystem bankingSystem;
+		
+		//Scanner sc = new Scanner(System.in);
+		//String input;
 		int port = 7777;
 		/*
 		System.out.print("Enter server port (enter nothing for 7777): ");
@@ -78,24 +80,74 @@ public class Server {
 				ObjectInputStream objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
 				ObjectOutputStream objectOutputStream = new ObjectOutputStream(clientSocket.getOutputStream());
 				
+				User currentUser;
+				
 				//Message clientMsg = new Message(), serverMsg = new Message();
-				Request clientRequest;
+				Request clientRequest, serverResponse;
 				try {
 					// get Messages from objectInputStream until a login is received
 					while((clientRequest = (Request)objectInputStream.readObject()) != null) {
 						
-						switch (clientRequest.getType()) {
-						case WITHDRAW:
-							System.out.println(((RequestWithdraw)clientRequest).toString());
-							break;
-						case DEPOSIT:
-							System.out.println(((RequestDeposit)clientRequest).toString());
-							break;
-						case TRANSFER:
-							System.out.println(((RequestTransfer)clientRequest).toString());
-							break;
-						default:
-							break;
+						if (clientRequest.getType() == RequestType.LOGIN) {
+							serverResponse = clientRequest;
+							
+							// verify login
+							currentUser = bankingSystem.login(((RequestLogin)clientRequest).getLogin())	
+							
+							// if login is valid continue
+							//	user is result after verifying login
+							//	user may be customer or teller
+							if (currentUser == null) {
+								serverResponse.setStatus(Status.FAIL);
+								objectOutputStream.writeObject(serverResponse);
+							} else {
+								serverResponse.setStatus(Status.SUCCESS);
+								objectOutputStream.writeObject(serverResponse);
+								
+								// loop for Requests once login is valid
+								while((clientRequest = (Request)objectInputStream.readObject()) != null) {
+									serverResponse = clientRequest;
+									switch(clientRequest.getType()) {
+									case CLOSEACCOUNT:
+										//(RequestCloseAccount)clientRequest;
+										break;
+									case CREATEACCOUNT:
+										
+										break;
+									case CREATECUSTOMER:
+										
+										break;
+									case DEPOSIT:
+										
+										break;
+									case GETACCOUNT:
+										
+										break;
+									case GETCUSTOMER:
+										
+										break;
+									case GETCUSTOMERACCOUNTS:
+										
+										break;
+									case LOGOUT:
+										
+										break;
+									case REMOVECUSTOMER:
+										
+										break;
+									case TRANSFER:
+										
+										break;
+									case WITHDRAW:
+										
+										break;
+									default:
+										serverResponse.setStatus(Status.FAIL);
+										break;
+									}
+									objectOutputStream.writeObject(serverResponse);
+								}
+							}
 						}
 						
 					} 

@@ -12,8 +12,8 @@ public class Login {
 		return ID;
 	}
 	
-	public String getPassword() {
-		return password;
+	public boolean verifyLogin(Login testLogin) {
+		return this.equals(testLogin);
 	}
 	
 	// for testing
