@@ -1,10 +1,18 @@
-import java.util.Vector;
+
+import java.util.Vector; // To use Vectors
 
 public class User {
 
 	String name;                    // User name
-	String ID;                      // User ID number
-	Vector<ActionType> permissions; // User permissions
+//	String ID;                      // User ID number   - within login
+//	Vector<ActionType> permissions; // User permissions - within login
+	public Login login;             // Login object
+	
+	public User(String name, String ID, String password) { // Constructor
+		setName(name);               // Set user name
+//		setID(ID);                   // Set user ID
+		this.login = new Login(ID, password); // Initialize user Login object with ID, password
+	}
 	
 	// Getters
 	
@@ -13,7 +21,15 @@ public class User {
 	}
 	
 	public String getID() { // get user ID
-		return ID;
+		return login.getID();
+	}
+	
+	public String getPassword() { // get login password
+		return login.getPassword();
+	}
+	
+	public String getLoginString() { // get login String
+		return login.toString();
 	}
 	
 	// Setters
@@ -22,10 +38,9 @@ public class User {
 		this.name = name;
 	}
 	
-	public void setID(String ID) { // set user ID
-		this.ID = ID;
-	}
-
-
-
+	// Should ID be able to be changed after being set?
+	
+//	public void setID(String ID) { // set user ID
+//		login.ID = ID;
+//	}
 }
