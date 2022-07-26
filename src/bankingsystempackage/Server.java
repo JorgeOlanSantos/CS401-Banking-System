@@ -1,3 +1,5 @@
+package bankingsystempackage;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -5,13 +7,12 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.Scanner;
 
 public class Server {
 
 	public static void main(String[] args) throws IOException {
 		
-		BankingSystem bankingSystem;
+		BankingSystem bankingSystem = null;
 		
 		//Scanner sc = new Scanner(System.in);
 		//String input;
@@ -26,6 +27,7 @@ public class Server {
 		}
 		sc.close();
 		*/
+		
 		
 		System.out.println("Starting Server...");
 		ServerSocket ss = new ServerSocket(port);
@@ -42,7 +44,7 @@ public class Server {
 				//System.out.println("[" + client.getInetAddress().getHostAddress() + "](connected)");
 				System.out.println("[" + client.getInetAddress().getHostAddress().trim() + "](connected)");
 			
-				ClientHandler clientSock = new ClientHandler(client);	
+				ClientHandler clientSock = new ClientHandler(client, bankingSystem);	
 				
 				new Thread(clientSock).start();
 			}
@@ -60,16 +62,18 @@ public class Server {
 			}
 		}
 		
+		System.out.print("test");
 	}
-	
 	
 	private static class ClientHandler implements Runnable {
 		private final Socket clientSocket;
+		private BankingSystem bankingSystem;
 
 		// Constructor
-		public ClientHandler(Socket socket)
+		public ClientHandler(Socket socket, BankingSystem bankingSystem)
 		{
 			this.clientSocket = socket;
+			this.bankingSystem = bankingSystem;
 		}
 
 		public void run()
@@ -92,7 +96,7 @@ public class Server {
 							serverResponse = clientRequest;
 							
 							// verify login
-							currentUser = bankingSystem.login(((RequestLogin)clientRequest).getLogin())	
+							currentUser = bankingSystem.login(((RequestLogin)clientRequest).getLogin());
 							
 							// if login is valid continue
 							//	user is result after verifying login
@@ -174,5 +178,4 @@ public class Server {
 			}
 		}
 	}
-
 }

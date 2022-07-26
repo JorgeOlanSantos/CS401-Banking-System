@@ -1,3 +1,4 @@
+package bankingsystempackage;
 
 @SuppressWarnings("serial")
 public class RequestTransfer extends Request {

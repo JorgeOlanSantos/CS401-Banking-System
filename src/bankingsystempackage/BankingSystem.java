@@ -1,7 +1,10 @@
+package bankingsystempackage;
+
+import java.util.Vector;
 
 public class BankingSystem {
 
-	Vector<Teller> tellers;
+	Vector<User> tellers;
 	Vector<Customer> customers;
 	Vector<Account> accounts;
 	
@@ -9,7 +12,7 @@ public class BankingSystem {
 	// Getters
 	// --------------------
 	
-	public Teller getTeller(Login login) {
+	public User getTeller(Login login) {
 		return null;
 	}
 	
@@ -17,7 +20,7 @@ public class BankingSystem {
 		return null;
 	}
 	
-	public Vector<Teller> getTellers() {
+	public Vector<User> getTellers() {
 		return tellers;
 	}
 	
@@ -66,23 +69,19 @@ public class BankingSystem {
 	public User login(Login testLogin) {
 		// check if testLogin is a teller
 		for (int i = 0; i < tellers.size(); i++) {
-			if (tellers.at(i).getLogin().verifyLogin(testLogin)) {
-				return tellers.at(i);
+			if (tellers.get(i).getLogin().verifyLogin(testLogin)) {
+				return tellers.get(i);
 			}
 		}
 		
-		// check if testLogin is
+		// check if testLogin is a customer
 		for (int i = 0; i < customers.size(); i++) {
-			if (customers.at(i).getLogin().verifyLogin(testLogin)) {
-				return customers.at(i);
+			if (customers.get(i).getLogin().verifyLogin(testLogin)) {
+				return customers.get(i);
 			}
 		}
 		
 		return null;
-	}
-	
-	public void transfer(account1, account2, double amount) {	// need to decide if it would be better to just use accountID as the parameters
-		
 	}
 	
 }

@@ -1,16 +1,15 @@
-
-import java.util.Vector; // To use Vectors
+package bankingsystempackage;
 
 public class User {
 
 	String name;                    // User name
-//	String ID;                      // User ID number   - within login
-//	Vector<ActionType> permissions; // User permissions - within login
+	//String ID;                      // User ID number   - within login
+	//Vector<ActionType> permissions; // User permissions - within login
 	public Login login;             // Login object
 	
 	public User(String name, String ID, String password) { // Constructor
 		setName(name);               // Set user name
-//		setID(ID);                   // Set user ID
+		//setID(ID);                   // Set user ID
 		this.login = new Login(ID, password); // Initialize user Login object with ID, password
 	}
 	
@@ -18,6 +17,10 @@ public class User {
 	
 	public String getName() { // get user name
 		return name;
+	}
+	
+	public Login getLogin() {
+		return login;
 	}
 	
 	public String getID() { // get user ID
@@ -40,7 +43,7 @@ public class User {
 	
 	// Should ID be able to be changed after being set?
 	
-//	public void setID(String ID) { // set user ID
-//		login.ID = ID;
-//	}
+	//public void setID(String ID) { // set user ID
+		//login.ID = ID;
+	//}
 }

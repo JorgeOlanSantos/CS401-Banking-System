@@ -1,7 +1,9 @@
-//package testBankingSystem; // Package all test cases together?
+package testBankingSystem; // Package all test cases together?
 
 import static org.junit.jupiter.api.Assertions.*; // To use assertions
 import org.junit.jupiter.api.Test;                // To code @Test methods
+
+import bankingsystempackage.*;
 
 class UserTest { // Test Customer class
 	// Test input
@@ -12,7 +14,7 @@ class UserTest { // Test Customer class
 	@Test
 	void testConstructorName() {
 		// Create new User object with test input
-		User user = new User(testName, testID, testPassword);
+		bankingsystempackage.User user = new bankingsystempackage.User(testName, testID, testPassword);
 		
 		assertEquals(testName, user.getName()); // Check name
 	}
@@ -20,7 +22,7 @@ class UserTest { // Test Customer class
 	@Test
 	void testConstructorLoginID() {
 		// Create new User object with test input
-		User user = new User(testName, testID, testPassword);
+		bankingsystempackage.User user = new bankingsystempackage.User(testName, testID, testPassword);
 		
 		assertEquals(testID, user.getID()); // Check ID
 	}
@@ -28,7 +30,7 @@ class UserTest { // Test Customer class
 	@Test
 	void testConstructorLoginPassword() {
 		// Create new User object with test input
-		User user = new User(testName, testID, testPassword);
+		bankingsystempackage.User user = new bankingsystempackage.User(testName, testID, testPassword);
 		
 		assertEquals(testPassword, user.getPassword()); // Check password
 	}

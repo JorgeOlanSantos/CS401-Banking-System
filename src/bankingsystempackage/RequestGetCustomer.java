@@ -1,3 +1,4 @@
+package bankingsystempackage;
 
 @SuppressWarnings("serial")
 public class RequestGetCustomer extends Request {
@@ -14,7 +15,7 @@ public class RequestGetCustomer extends Request {
 	}
 	
 	public Customer getCustomer() {
-		return Customer;
+		return customer;
 	}
 	
 	public void setCustomer(Customer customer) {
