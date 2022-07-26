@@ -28,7 +28,6 @@ public class Server {
 		sc.close();
 		*/
 		
-		
 		System.out.println("Starting Server...");
 		ServerSocket ss = new ServerSocket(port);
 		System.out.println("Server Address: " + InetAddress.getLocalHost().getHostAddress().trim() + ":" + port);
@@ -61,8 +60,6 @@ public class Server {
 				}
 			}
 		}
-		
-		System.out.print("test");
 	}
 	
 	private static class ClientHandler implements Runnable {
