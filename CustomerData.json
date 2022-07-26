@@ -1,0 +1,38 @@
+[
+    {
+        "name": "Example Customer",
+        "address": "1234 Fake Road",
+        "pin": 1234,
+        "login": {
+            "ID": "exampleuser",
+            "password": "password"
+        }
+    },
+    {
+        "name": "John Doe",
+        "address": "4699 New York Avenue",
+        "pin": 7833,
+        "login": {
+            "ID": "johnD56",
+            "password": "password"
+        }
+    },
+    {
+        "name": "Thomas Jones",
+        "address": "4480 Lyon Avenue",
+        "pin": 9573,
+        "login": {
+            "ID": "racecarTom234",
+            "password": "password"
+        }
+    },
+    {
+        "name": "Ana Brown",
+        "address": "1541 Brookside Drive",
+        "pin": 2364,
+        "login": {
+            "ID": "Ana042banana",
+            "password": "password"
+        }
+    }
+]
