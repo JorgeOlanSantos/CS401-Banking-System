@@ -3,7 +3,7 @@ package bankingsystempackage;
 @SuppressWarnings("serial")
 public class RequestLogout extends Request {
 	
-	RequestLogout() {
+	public RequestLogout() {
 		type = RequestType.LOGOUT;
 	}
 	
