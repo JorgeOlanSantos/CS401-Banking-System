@@ -4,10 +4,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 enum RequestType {
+	DEPOSIT,
+	WITHDRAW,
+	TRANSFER,
 	CLOSEACCOUNT,
 	CREATEACCOUNT,
 	CREATECUSTOMER,
-	DEPOSIT,
 	GETACCOUNT,
 	//GETALLACCOUNTS,
 	//GETALLCUSTOMERS,
@@ -15,9 +17,7 @@ enum RequestType {
 	GETCUSTOMERACCOUNTS,
 	LOGIN,
 	LOGOUT,
-	REMOVECUSTOMER,
-	TRANSFER,
-	WITHDRAW
+	REMOVECUSTOMER
 }
 
 enum Status {
