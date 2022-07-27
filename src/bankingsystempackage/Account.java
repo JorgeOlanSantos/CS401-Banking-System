@@ -80,8 +80,23 @@ public class Account implements Serializable {
 	// Method is designed to remove a customer from an account.
 	public boolean removeCustomer(String customerID)
 	{
+		// Check that account will not end up without any customer access
+//		if(!isJointAccount()) {
+//			return false;
+//		}
+		// If the customer being removed is the only one with access then simply close account?
+		
 		boolean removedCustomer = customerIDS.remove(customerID);
 
 		return removedCustomer;
+	}
+	
+	// Checks if the account is a joint account
+	public boolean isJointAccount() {
+		// Confirm account is accessible by at least 1 other customer
+		if(customerIDS.size() > 1)
+			return true;
+		else
+			return false;
 	}
 }
