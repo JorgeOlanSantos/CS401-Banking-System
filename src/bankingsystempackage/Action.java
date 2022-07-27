@@ -4,8 +4,8 @@ import java.util.Date;
 
 enum ActionType {
 	DEPOSIT,
-	TRANSFER,
-	WITHDRAW
+	WITHDRAW,
+	TRANSFER
 }
 
 public class Action {
