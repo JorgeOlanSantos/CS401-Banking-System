@@ -1,7 +1,9 @@
 package testBankingSystem; // Package all test cases together?
 
 import static org.junit.jupiter.api.Assertions.*; // To use assertions
-import org.junit.jupiter.api.Test;                // To code @Test methods
+//import org.junit.jupiter.api.Test;              // "No runnable methods" issue with test runner
+import org.junit.Test;                            // To code @Test methods
+
 
 import bankingsystempackage.*;
 
