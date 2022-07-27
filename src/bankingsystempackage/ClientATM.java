@@ -42,7 +42,7 @@ public class ClientATM {
 						option = Integer.parseInt(sc.nextLine());
 					}
 					catch(Exception e) {
-						System.out.print("Only enter numbers between 1 and 4.");
+						System.out.println("Only enter numbers between 1 and 4.");
 					}
 					
 					if (option >= 1 && option <= 3) {
