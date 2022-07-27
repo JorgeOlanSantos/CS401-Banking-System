@@ -19,7 +19,7 @@ public class CustomerTest { // Test Customer class
 	Customer test;
 	
 	@Test
-	void testConstructorName() {
+	public void testConstructorName() {
 		// Create new Customer object with test input
 		Customer customer = new Customer(testName, testID, testPassword, testPin, testAddress);
 		
@@ -27,7 +27,7 @@ public class CustomerTest { // Test Customer class
 	}
 	
 	@Test
-	void testConstructorID() {
+	public void testConstructorID() {
 		// Create new Customer object with test input
 		Customer customer = new Customer(testName, testID, testPassword, testPin, testAddress);
 		
@@ -35,7 +35,7 @@ public class CustomerTest { // Test Customer class
 	}
 	
 	@Test
-	void testConstructorPassword() {
+	public void testConstructorPassword() {
 		// Create new Customer object with test input
 		Customer customer = new Customer(testName, testID, testPassword, testPin, testAddress);
 		
@@ -43,7 +43,7 @@ public class CustomerTest { // Test Customer class
 	}
 	
 	@Test
-	void testConstructorPin() {
+	public void testConstructorPin() {
 		// Create new Customer object with test input
 		Customer customer = new Customer(testName, testID, testPassword, testPin, testAddress);
 		
@@ -51,7 +51,7 @@ public class CustomerTest { // Test Customer class
 	}
 	
 	@Test
-	void testConstructorAddress() {
+	public void testConstructorAddress() {
 		// Create new Customer object with test input
 		Customer customer = new Customer(testName, testID, testPassword, testPin, testAddress);
 		
@@ -59,7 +59,7 @@ public class CustomerTest { // Test Customer class
 	}
 	
 	@Test
-	void testConstructorLoggedIn() {
+	public void testConstructorLoggedIn() {
 		// Create new Customer object with test input
 		Customer customer = new Customer(testName, testID, testPassword, testPin, testAddress);
 		
