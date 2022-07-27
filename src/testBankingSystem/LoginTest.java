@@ -1,8 +1,9 @@
 package testBankingSystem;
 
 import static org.junit.jupiter.api.Assertions.*;
+//import org.junit.jupiter.api.Test;              // "No runnable methods" issue with test runner
+import org.junit.Test;                            // To code @Test methods
 
-import org.junit.jupiter.api.Test;
 
 import bankingsystempackage.Login;
 
