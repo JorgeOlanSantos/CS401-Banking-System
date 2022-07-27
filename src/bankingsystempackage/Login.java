@@ -22,7 +22,7 @@ public class Login implements Serializable {
 	}
 	
 	public boolean verifyLogin(Login testLogin) { // To verify login
-		return this.equals(testLogin);
+		return (testLogin.getID().equals(ID)) && (testLogin.getPassword().equals(password));
 	}
 	
 	// for testing

@@ -29,7 +29,7 @@ public class BankingSystem {
 		customers = new ArrayList<Customer>();
 		accounts = new ArrayList<Account>();
 		
-		customers.add(new Customer("Example User", "exampleuser", "password", (short)1234, "1234 Fake Road"));
+		customers.add(new Customer("Example User", "username", "password", (short)1234, "1234 Fake Road"));
 		customers.add(new Customer("John Doe", "johnD56", "password", (short)7833, "4699 New York Avenue"));
 		customers.add(new Customer("Thomas Jones", "racecarTom234", "password", (short)9573, "4480 Lyon Avenue"));
 		customers.add(new Customer("Ana Brown", "Ana042banana", "password", (short)2364, "1541 Brookside Drive"));
@@ -39,7 +39,6 @@ public class BankingSystem {
 		ArrayList<String> tempIDList = new ArrayList<String>();
 		tempIDList.add(customers.get(0).getID());
 		tempIDList.add(customers.get(1).getID());
-		
 		accounts.add(new Account("exampleaccount", tempIDList, 3456));
 	}
 	

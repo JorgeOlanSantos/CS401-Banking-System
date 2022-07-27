@@ -93,135 +93,131 @@ public class Server {
 				try {
 					// get Messages from objectInputStream until a login is received
 					while((clientRequest = (Request)objectInputStream.readObject()) != null) {
+						System.out.print(clientRequest.getType());
 						
-						if (clientRequest.getType() == RequestType.LOGIN) {
-							serverResponse = clientRequest;
+						serverResponse = clientRequest;
 							
-							// verify login
-							currentUser = bankingSystem.login(((RequestLogin)clientRequest).getLogin());
+						String accountID;
+						double amount;
+						String description;
+						boolean statusResult = false;
+						switch(clientRequest.getType()) {
+						
+						case CLOSEACCOUNT:
+							statusResult = bankingSystem.closeAccount(((RequestCloseAccount)clientRequest).getAccountID());
+							break;
+							
+						case CREATEACCOUNT:
+							statusResult = bankingSystem.createAccount(((RequestCreateAccount)clientRequest).getAccount());
+							break;
+							
+						case CREATECUSTOMER:
+							statusResult = bankingSystem.createCustomer(((RequestCreateCustomer)clientRequest).getCustomer());
+							break;
+							
+						case DEPOSIT:
+							accountID = ((RequestDeposit)clientRequest).getAccountID();
+							amount = ((RequestDeposit)clientRequest).getAmount();
+							description = ((RequestDeposit)clientRequest).getDescription();
+							statusResult = bankingSystem.deposit(accountID, amount);
+							if (statusResult) {
+								bankingSystem.addHistoryToAccount(accountID, new Transaction(TransactionType.DEPOSIT, amount, description));
+								((RequestDeposit)serverResponse).setAccount(bankingSystem.getAccount(((RequestDeposit)serverResponse).getAccountID()));
+							}
+							break;
+							
+						case GETACCOUNT:
+							Account tempAccount = bankingSystem.getAccount(((RequestGetAccount)clientRequest).getAccountID());
+							if (tempAccount != null) {
+								((RequestGetAccount)serverResponse).setAccount(tempAccount);
+								statusResult = true;
+							}
+							break;
+							
+						case GETCUSTOMER:
+							Customer tempCustomer = bankingSystem.getCustomer(((RequestGetCustomer)clientRequest).getCustomerID());
+							if (tempCustomer != null) {
+								((RequestGetCustomer)serverResponse).setCustomer(tempCustomer);
+								statusResult = true;
+							}
+							break;
+							
+						case GETCUSTOMERACCOUNTS:
+							ArrayList<Account> tempAccounts = bankingSystem.getCustomerAccounts(((RequestGetCustomerAccounts)clientRequest).getCustomerID());
+							if (tempAccounts.size() > 0) {
+								((RequestGetCustomerAccounts)clientRequest).setAccounts(tempAccounts);
+								statusResult = false;
+							}
+							break;
+							
+						case LOGIN:
+							Login tempLogin = ((RequestLogin)clientRequest).getLogin();
+							System.out.print(" login:{" + tempLogin.toString() + "}");
+							currentUser = bankingSystem.login(tempLogin);
 							((RequestLogin)serverResponse).setUser(currentUser);
-							
-							// if login is valid continue
-							//	user is result after verifying login
-							//	user may be customer or teller
-							/*
 							if (currentUser == null) {
-								serverResponse.setStatus(Status.FAIL);
-								objectOutputStream.writeObject(serverResponse);
+								statusResult = false;
 							} else {
-							*/
-							if (true) {
-								serverResponse.setStatus(Status.SUCCESS);
+								statusResult = true;
 								if (currentUser instanceof Customer) {
+									System.out.print(" loginType:customer");
 									((RequestLogin)serverResponse).setAccounts(bankingSystem.getCustomerAccounts(currentUser.getID()));
-								}
-								objectOutputStream.writeObject(serverResponse);
-								System.out.println("test");
-								
-								// loop for Requests once login is valid
-								while((clientRequest = (Request)objectInputStream.readObject()) != null) {
-									serverResponse = clientRequest;
-									
-									String accountID;
-									double amount;
-									String description;
-									boolean statusResult = false;
-									switch(clientRequest.getType()) {
-									
-									case CLOSEACCOUNT:
-										statusResult = bankingSystem.closeAccount(((RequestCloseAccount)clientRequest).getAccountID());
-										break;
-										
-									case CREATEACCOUNT:
-										statusResult = bankingSystem.createAccount(((RequestCreateAccount)clientRequest).getAccount());
-										break;
-										
-									case CREATECUSTOMER:
-										statusResult = bankingSystem.createCustomer(((RequestCreateCustomer)clientRequest).getCustomer());
-										break;
-										
-									case DEPOSIT:
-										accountID = ((RequestDeposit)clientRequest).getAccountID();
-										amount = ((RequestDeposit)clientRequest).getAmount();
-										description = ((RequestDeposit)clientRequest).getDescription();
-										statusResult = bankingSystem.deposit(accountID, amount);
-										if (statusResult) {
-											bankingSystem.addHistoryToAccount(accountID, new Transaction(TransactionType.DEPOSIT, amount, description));
-										}
-										break;
-										
-									case GETACCOUNT:
-										Account tempAccount = bankingSystem.getAccount(((RequestGetAccount)clientRequest).getAccountID());
-										if (tempAccount != null) {
-											((RequestGetAccount)serverResponse).setAccount(tempAccount);
-											statusResult = true;
-										}
-										break;
-										
-									case GETCUSTOMER:
-										Customer tempCustomer = bankingSystem.getCustomer(((RequestGetCustomer)clientRequest).getCustomerID());
-										if (tempCustomer != null) {
-											((RequestGetCustomer)serverResponse).setCustomer(tempCustomer);
-											statusResult = true;
-										}
-										break;
-										
-									case GETCUSTOMERACCOUNTS:
-										ArrayList<Account> tempAccounts = bankingSystem.getCustomerAccounts(((RequestGetCustomerAccounts)clientRequest).getCustomerID());
-										if (tempAccounts.size() > 0) {
-											((RequestGetCustomerAccounts)clientRequest).setAccounts(tempAccounts);
-											statusResult = false;
-										}
-										break;
-										
-									case LOGOUT:
-										statusResult = true;
-										break;
-										
-									case REMOVECUSTOMER:
-										statusResult = bankingSystem.removeCustomer(((RequestRemoveCustomer)clientRequest).getCustomerID());
-										break;
-										
-									case TRANSFER:
-										String accountID1 = ((RequestTransfer)clientRequest).getAccountID1();
-										String accountID2 = ((RequestTransfer)clientRequest).getAccountID2();
-										description = ((RequestWithdraw)clientRequest).getDescription();
-										amount = ((RequestTransfer)clientRequest).getAmount();
-										statusResult = bankingSystem.transfer(accountID1, accountID2, amount);
-										if (statusResult) {
-											bankingSystem.addHistoryToAccount(accountID1, 
-													new Transaction(TransactionType.TRANSFER, -1 * Math.abs(amount), description));
-											bankingSystem.addHistoryToAccount(accountID2, 
-													new Transaction(TransactionType.TRANSFER, Math.abs(amount), description));
-										}
-										break;
-										
-									case WITHDRAW:
-										accountID = ((RequestWithdraw)clientRequest).getAccountID();
-										amount = ((RequestWithdraw)clientRequest).getAmount();
-										description = ((RequestWithdraw)clientRequest).getDescription();
-										statusResult = bankingSystem.withdraw(accountID, amount);
-										if (statusResult) {
-											bankingSystem.addHistoryToAccount(accountID, new Transaction(TransactionType.WITHDRAW, amount, description));
-										}
-										break;
-										
-									default:
-										break;
-									}
-									if (statusResult) {
-										serverResponse.setStatus(Status.SUCCESS);
-									} else {
-										serverResponse.setStatus(Status.FAIL);
-									}
-									objectOutputStream.writeObject(serverResponse);
-									
-									if ((clientRequest.getType() == RequestType.LOGOUT) && (statusResult == true)) {
-										break;
-									}
+									System.out.print(" accounts:{" + ((RequestLogin)serverResponse).getAccounts().toString() + "}");
+								} else {
+									System.out.print(" loginType:teller");
 								}
 							}
+							break;
+							
+						case LOGOUT:
+							statusResult = true;
+							break;
+							
+							
+						case REMOVECUSTOMER:
+							statusResult = bankingSystem.removeCustomer(((RequestRemoveCustomer)clientRequest).getCustomerID());
+							break;
+							
+						case TRANSFER:
+							String accountID1 = ((RequestTransfer)clientRequest).getAccountID1();
+							String accountID2 = ((RequestTransfer)clientRequest).getAccountID2();
+							description = ((RequestWithdraw)clientRequest).getDescription();
+							amount = ((RequestTransfer)clientRequest).getAmount();
+							statusResult = bankingSystem.transfer(accountID1, accountID2, amount);
+							if (statusResult) {
+								bankingSystem.addHistoryToAccount(accountID1, 
+										new Transaction(TransactionType.TRANSFER, -1 * Math.abs(amount), description));
+								bankingSystem.addHistoryToAccount(accountID2, 
+										new Transaction(TransactionType.TRANSFER, Math.abs(amount), description));
+							}
+							break;
+							
+						case WITHDRAW:
+							accountID = ((RequestWithdraw)clientRequest).getAccountID();
+							amount = ((RequestWithdraw)clientRequest).getAmount();
+							description = ((RequestWithdraw)clientRequest).getDescription();
+							statusResult = bankingSystem.withdraw(accountID, amount);
+							if (statusResult) {
+								bankingSystem.addHistoryToAccount(accountID, new Transaction(TransactionType.WITHDRAW, amount, description));
+								((RequestWithdraw)serverResponse).setAccount(bankingSystem.getAccount(((RequestWithdraw)serverResponse).getAccountID()));
+							}
+							break;
+							
+						default:
+							break;
 						}
+						if (statusResult) {
+							serverResponse.setStatus(Status.SUCCESS);
+						} else {
+							serverResponse.setStatus(Status.FAIL);
+						}
+						objectOutputStream.writeObject(serverResponse);
+						
+						if (((clientRequest.getType() == RequestType.LOGOUT) || (clientRequest.getType() == RequestType.LOGIN)) && (statusResult == true)) {
+							break;
+						}
+						
+						System.out.println(" status:" + statusResult);
 						
 					} 
 				} catch (ClassNotFoundException e) {

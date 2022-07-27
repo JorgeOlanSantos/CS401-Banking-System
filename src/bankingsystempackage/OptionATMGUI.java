@@ -6,6 +6,11 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -37,7 +42,14 @@ public class OptionATMGUI implements ActionListener{
 	JTextField userId;
 	JPasswordField passText;
 	
-public OptionATMGUI(String name) {
+	private Socket socket;
+	private ObjectOutputStream objectOutputStream;
+    private ObjectInputStream objectInputStream;
+    
+    private User currentCustomer;
+    private ArrayList<Account> accounts;
+	
+    public OptionATMGUI(RequestLogin login) throws IOException {
 		
 		//set up buttons and there settings
 		withdrawal.setBounds(100,70,300,70);
@@ -77,7 +89,7 @@ public OptionATMGUI(String name) {
 
 		
 		//set up labels, settings, and messages they hold
-		label1.setText("Welcome " + name);				//insert name here
+		label1.setText("Welcome " + login.getUser().getName());				//insert name here
 		label1.setBounds(150,50,500,25);
 		//label1.setForeground(new Color(0x00FF00))
 		label1.setForeground(Color.white);
@@ -166,31 +178,73 @@ public OptionATMGUI(String name) {
 		frame.setVisible(true);	//makes frame visible
 		
 		
+		//-----------------socket-----------------
+		socket = new Socket("localhost", 7777);
+		objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+		objectInputStream = new ObjectInputStream(socket.getInputStream());	
 		
-		
+		//save initial login data
+		this.currentCustomer = (Customer)login.getUser();
+		this.accounts = login.getAccounts();
+	}
+    
+	public boolean updateAccount(Account account) {
+		for (int i = 0; i < accounts.size(); i++) {
+			if (accounts.get(i).getAccountID().equals(account.getAccountID())) {
+				accounts.set(i, account);
+				return true;
+			}
+		}
+		return false;
 	}
 
-@Override
-public void actionPerformed(ActionEvent e) {
-	if(e.getSource() == withdrawal) {
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == withdrawal) {
+			
+			RequestWithdraw request = new RequestWithdraw(amount, accountID, description);
+			objectOutputStream.writeObject(request);
+			RequestWithdraw response = (RequestWithdraw)objectInputStream.readObject();
+			if (response.getStatus() == Status.SUCCESS) {
+				updateAccount(response.getAccount());
+			}
+		}
+		
+		if(e.getSource() == deposit) {
+			
+			RequestDeposit request = new RequestDeposit(amount, accountID, description);
+			objectOutputStream.writeObject(request);
+			RequestDeposit response = (RequestDeposit)objectInputStream.readObject();
+			if (response.getStatus() == Status.SUCCESS) {
+				updateAccount(response.getAccountID());
+			}
+		}
+	
+		if(e.getSource() == transfer) {
+			
+			RequestTransfer request = new RequestTransfer(amount, account1, account2, description);
+			objectOutputStream.writeObject(request);
+			RequestTransfer response = (RequestTransfer)objectInputStream.readObject();
+			if (response.getStatus() == Status.SUCCESS) {
+				RequestGetCustomerAccounts request2 = new RequestCustomerAccounts(customerID);
+			}
+		}
+	
+		if(e.getSource() == switchAcc) {
+		
+			if (response.getStatus() == Status.SUCCESS) {
+				updateAccount(response.getAccount());
+			}
+		}
+		
+		if(e.getSource() == cancel) {
+			RequestLogout request = new RequestLogout();
+			objectOutputStream.writeObject(request);
+			socket.close();
+			objectOutputStream.close();
+			objectInputStream.close();
+			System.exit(0);
+		}
 		
 	}
-	
-	if(e.getSource() == deposit) {
-		
-	}
-
-	if(e.getSource() == transfer) {
-	
-	}
-
-	if(e.getSource() == switchAcc) {
-	
-	}
-	
-	if(e.getSource() == cancel) {
-		  System.exit(0);
-	}
-	
-}
 }

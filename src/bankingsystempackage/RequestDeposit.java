@@ -5,6 +5,7 @@ public class RequestDeposit extends Request {
 	double amount;
 	String accountID;
 	String description;
+	Account account;
 	
 	public RequestDeposit(double amount, String accountID, String description) {
 		this.type = RequestType.DEPOSIT;
@@ -23,6 +24,14 @@ public class RequestDeposit extends Request {
 	
 	public String getDescription() {
 		return description;
+	}
+	
+	public Account getAccount() {
+		return account;
+	}
+	
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 	
 	public String toString() {

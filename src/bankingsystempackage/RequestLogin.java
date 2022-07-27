@@ -25,6 +25,10 @@ public class RequestLogin extends Request {
 		return user;
 	}
 	
+	public ArrayList<Account> getAccounts() {
+		return accounts;
+	}
+	
 	public void setUser(User user) {
 		this.user = user;
 	}

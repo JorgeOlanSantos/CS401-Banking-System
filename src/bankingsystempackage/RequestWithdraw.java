@@ -5,6 +5,7 @@ public class RequestWithdraw extends Request {
 	double amount;
 	String accountID;
 	String description;
+	Account account;
 	
 	public RequestWithdraw(double amount, String accountID, String description) {
 		this.type = RequestType.WITHDRAW;
@@ -23,6 +24,14 @@ public class RequestWithdraw extends Request {
 	
 	public String getDescription() {
 		return description;
+	}
+	
+	public Account getAccount() {
+		return account;
+	}
+	
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 	
 	public String toString() {

@@ -6,6 +6,10 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -32,7 +36,11 @@ public class ATMGUI implements ActionListener {
 	JTextField userId;
 	JPasswordField passText;
 	
-	public ATMGUI(){
+	private Socket socket;
+	private ObjectOutputStream objectOutputStream;
+    private ObjectInputStream objectInputStream;
+	
+	public ATMGUI() throws IOException{
 		
 		//button
 		login.setBounds(115,200,65,25);
@@ -143,36 +151,50 @@ public class ATMGUI implements ActionListener {
 		
 		frame.setVisible(true);	//makes frame visible
 		
+		
+		//-----------------socket-----------------
+		socket = new Socket("localhost", 7777);
+		objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+        objectInputStream = new ObjectInputStream(socket.getInputStream());
 	}
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == login) {
 			String id = userId.getText();
+			@SuppressWarnings("deprecation")
 			String password = passText.getText();
+			Login login = new Login(id, password);
 			
 			//removes userId and password after pressing login button
 			userId.setText("");		
 			passText.setText("");			
 			
-		//pass object here and wait for approval
-			
-		//if approved close this window and open OptionATMGUI
-			frame.dispose();
-			OptionATMGUI option = new OptionATMGUI("Matthew");
-			
-			
-		//if not approved then send error message
-			/*JOptionPane.showMessageDialog(
-					null, 
-					"The user ID or password is incorrect. This is easily corrected by typing the correct user name and password.", 
-					"Failed Login", 
-					JOptionPane.ERROR_MESSAGE);*/
-			
-		
+			Request request = new RequestLogin(login);
+			try {
+				objectOutputStream.writeObject(request);
+				Request response = (Request)objectInputStream.readObject();
+				if (response.getStatus() == Status.SUCCESS) {
+					frame.dispose();
+					System.out.println(((RequestLogin)response).getUser().getName());
+					OptionATMGUI option = new OptionATMGUI((RequestLogin)response);
+					socket.close();
+				}
+			} catch (IOException | ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 	
+	public static void main(String[] args) throws ClassNotFoundException {
+		
+		try {
+			ATMGUI gui = new ATMGUI();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
+	}
 }
