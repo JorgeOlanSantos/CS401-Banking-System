@@ -181,7 +181,11 @@ public class ATMGUI implements ActionListener {
 						OptionATMGUI option = new OptionATMGUI((RequestLogin)response);
 						socket.close();
 					} else {
-						System.out.println("Teller login invalid for customer");
+						JOptionPane.showMessageDialog(
+			                    null, 
+			                    "Login Failed", 
+			                    "The user ID or password is incorrect. This is easily corrected by typing the correct user name and password.", 
+			                    JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			} catch (IOException | ClassNotFoundException e1) {

@@ -120,6 +120,7 @@ public class Server {
 							amount = ((RequestDeposit)clientRequest).getAmount();
 							description = ((RequestDeposit)clientRequest).getDescription();
 							statusResult = bankingSystem.deposit(accountID, amount);
+							
 							if (statusResult) {
 								bankingSystem.addHistoryToAccount(accountID, new Transaction(TransactionType.DEPOSIT, amount, description));
 								((RequestDeposit)serverResponse).setAccount(bankingSystem.getAccount(((RequestDeposit)serverResponse).getAccountID()));
@@ -179,9 +180,11 @@ public class Server {
 							break;
 							
 						case TRANSFER:
-							String accountID1 = ((RequestTransfer)clientRequest).getAccountID1();
-							String accountID2 = ((RequestTransfer)clientRequest).getAccountID2();
-							description = ((RequestWithdraw)clientRequest).getDescription();
+							RequestTransfer requestTransfer = (RequestTransfer)clientRequest;
+							String accountID1 = requestTransfer.getAccountID1();
+							String accountID2 = requestTransfer.getAccountID2();
+							
+							description = "";
 							amount = ((RequestTransfer)clientRequest).getAmount();
 							statusResult = bankingSystem.transfer(accountID1, accountID2, amount);
 							if (statusResult) {

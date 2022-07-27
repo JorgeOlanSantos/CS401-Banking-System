@@ -340,8 +340,12 @@ public class BankingSystem {
 		
 		for (int i = 0; i < accounts.size(); i++) {
 			if (accounts.get(i).getAccountID().equals(accountID)) {
-				accounts.get(i).withdraw(amount);
-				return true;
+				if (accounts.get(i).getBalance() >= amount) {
+					accounts.get(i).withdraw(amount);
+					return true;
+				} else {
+					return false;
+				}
 			}
 		}
 		return false;
@@ -352,7 +356,7 @@ public class BankingSystem {
 	public boolean addHistoryToAccount(String accountID, Transaction action) {
 		for (int i = 0; i < accounts.size(); i++) {
 			if (accounts.get(i).getAccountID().equals(accountID)) {
-				accounts.get(i).addHistory(action);
+				//accounts.get(i).addHistory(action);
 				return true;
 			}
 		}

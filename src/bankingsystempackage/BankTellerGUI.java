@@ -14,6 +14,7 @@ import java.net.UnknownHostException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -171,7 +172,11 @@ public class BankTellerGUI implements ActionListener {
 				RequestLogin response = (RequestLogin)objectInputStream.readObject();
 				if (response.getStatus() == Status.SUCCESS) {
 					if (response.getUser() instanceof Customer) {
-						System.out.println("Customer login invalid for teller");
+						JOptionPane.showMessageDialog(
+			                    null, 
+			                    "Login Failed", 
+			                    "The user ID or password is incorrect. This is easily corrected by typing the correct user name and password.", 
+			                    JOptionPane.ERROR_MESSAGE);
 					} else {
 						frame.dispose();
 						System.out.println(((RequestLogin)response).getUser().getName());

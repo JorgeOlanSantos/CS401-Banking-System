@@ -10,13 +10,13 @@ public class Account implements Serializable {
 	private String accountID;
 	private double balance;
 	private ArrayList<String> customerIDS;
-	private ArrayList<Transaction> history;
+	//private ArrayList<Transaction> history;
 
 	public Account() {
 		accountID = null;
 		balance = 0;
 		customerIDS = null;
-		history = null;
+		//history = null;
 	}
 	
 	public Account(String accountID, ArrayList<String> IDS, double balance)
@@ -25,7 +25,7 @@ public class Account implements Serializable {
 		this.balance = balance;
 		//Collections.copy(customerIDS, IDS);
 		customerIDS = IDS;
-		this.history = new ArrayList<Transaction>();
+		//this.history = new ArrayList<Transaction>();
 	}
 	
 	// Getter method for account ID.
@@ -40,9 +40,11 @@ public class Account implements Serializable {
 		return balance;
 	}
 	
+	/*
 	public ArrayList<Transaction> getHistory() {
 		return history;
 	}
+	*/
 	
 	// Getter method for Customers as a vector of type String.
 	public ArrayList<String> getCustomerIDS()
@@ -72,10 +74,12 @@ public class Account implements Serializable {
 		customerIDS.add(customerID);
 	}
 	
+	/*
 	// Adds a transaction to account's transaction history
 	public void addHistory(Transaction newAction) {
 		history.add(newAction);
 	}
+	*/
 	
 	// Method is designed to remove a customer from an account.
 	public boolean removeCustomer(String customerID)
