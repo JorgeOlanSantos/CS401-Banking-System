@@ -6,7 +6,7 @@ public class RequestDeposit extends Request {
 	String accountID;
 	String description;
 	
-	RequestDeposit(double amount, String accountID, String description) {
+	public RequestDeposit(double amount, String accountID, String description) {
 		this.type = RequestType.DEPOSIT;
 		this.amount = Math.abs(amount);
 		this.accountID = accountID;
