@@ -26,7 +26,7 @@ public class ClientATM {
 			objectOutputStream.writeObject(new RequestLogin(new Login("test", "test")));
 			
 			//
-	        int option;
+	        int option = 0; // Initialized to loop when receiving invalid option value
 			do {
 				boolean optionSelected = false;
 				do {
@@ -38,7 +38,12 @@ public class ClientATM {
 					System.out.println(" 4 - Logout");
 					//System.out.println("Select Option:");
 					
-					option = Integer.parseInt(sc.nextLine());
+					try {
+						option = Integer.parseInt(sc.nextLine());
+					}
+					catch(Exception e) {
+						System.out.print("Only enter numbers between 1 and 4.");
+					}
 					
 					if (option >= 1 && option <= 3) {
 						optionSelected = true;
