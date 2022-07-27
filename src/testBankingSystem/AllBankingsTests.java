@@ -8,7 +8,7 @@ import bankingsystempackage.*;
 @RunWith(Suite.class)
 
 @SuiteClasses({
-	UserTest.class, CustomerTest.class
+	UserTest.class, CustomerTest.class, LoginTest.class, TransactionTest.class
 	})
 public class AllBankingsTests {
 }
