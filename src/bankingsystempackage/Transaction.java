@@ -2,7 +2,7 @@ package bankingsystempackage;
 
 import java.util.Date;
 
-enum TransactionType {
+public enum TransactionType {
 	DEPOSIT,
 	WITHDRAW,
 	TRANSFER
