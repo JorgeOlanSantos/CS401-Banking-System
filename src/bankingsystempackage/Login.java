@@ -8,7 +8,7 @@ public class Login implements Serializable {
 	private String ID;
 	private String password;
 	
-	Login(String ID, String password) {
+	public Login(String ID, String password) {
 		this.ID = ID;
 		this.password = password;
 	}
