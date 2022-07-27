@@ -180,6 +180,13 @@ OptionATMGUI(String name) {
 private void connectToServer()throws IOException{
 	connection = new Socket(Inet.Address.getByName(serverIP),1337);	
 }
+// Setting up the stream
+private void setupStream()throws IOException {
+	output = new ObjectOutputStream(connection.getOutputStream());
+	output.flush();
+	input = new ObjectInputStream(connection.getInputStream());
+}
+
 public void actionPerformed(ActionEvent e) {
 	if(e.getSource() == withdrawal) {
 		
