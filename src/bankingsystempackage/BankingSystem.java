@@ -182,6 +182,7 @@ public class BankingSystem {
 		return true;
 	}
 	
+	// Adds customer's ID to account's list of customerID's for accesss
 	public boolean addCustomerToAccount(String customerID, Account account) {
 		try {
 			// Add customer to account if it exists
@@ -231,15 +232,19 @@ public class BankingSystem {
 		return false;
 	}
 	
+	// Removes customer's ID to account's list of customerID's to remove accesss
 	public boolean removeCustomerFromAccount(String customerID, Account account) {
 		try {
 			// Remove customer from account if it exists
-			account.removeCustomer(customerID);
+			if(account.removeCustomer(customerID)) {
+				return true;
+			}
+			else
+				return false;
 			
-			return true;
 		}
 		catch(Exception e) {
-			// Account does not exist
+			// Account/customer does not exist
 			
 			return false;
 		}
