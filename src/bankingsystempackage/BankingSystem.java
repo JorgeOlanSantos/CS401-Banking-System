@@ -289,7 +289,7 @@ public class BankingSystem {
 	
 	// other methods
 	
-	public boolean addHistoryToAccount(String accountID, Action action) {
+	public boolean addHistoryToAccount(String accountID, Transaction action) {
 		for (int i = 0; i < accounts.size(); i++) {
 			if (accounts.get(i).getAccountID().equals(accountID)) {
 				accounts.get(i).addHistory(action);

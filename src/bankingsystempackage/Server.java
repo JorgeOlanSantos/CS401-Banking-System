@@ -146,7 +146,7 @@ public class Server {
 										description = ((RequestDeposit)clientRequest).getDescription();
 										statusResult = bankingSystem.deposit(accountID, amount);
 										if (statusResult) {
-											bankingSystem.addHistoryToAccount(accountID, new Action(ActionType.DEPOSIT, amount, description));
+											bankingSystem.addHistoryToAccount(accountID, new Transaction(TransactionType.DEPOSIT, amount, description));
 										}
 										break;
 										
@@ -190,9 +190,9 @@ public class Server {
 										statusResult = bankingSystem.transfer(accountID1, accountID2, amount);
 										if (statusResult) {
 											bankingSystem.addHistoryToAccount(accountID1, 
-													new Action(ActionType.TRANSFER, -1 * Math.abs(amount), description));
+													new Transaction(TransactionType.TRANSFER, -1 * Math.abs(amount), description));
 											bankingSystem.addHistoryToAccount(accountID2, 
-													new Action(ActionType.TRANSFER, Math.abs(amount), description));
+													new Transaction(TransactionType.TRANSFER, Math.abs(amount), description));
 										}
 										break;
 										
@@ -202,7 +202,7 @@ public class Server {
 										description = ((RequestWithdraw)clientRequest).getDescription();
 										statusResult = bankingSystem.withdraw(accountID, amount);
 										if (statusResult) {
-											bankingSystem.addHistoryToAccount(accountID, new Action(ActionType.WITHDRAW, amount, description));
+											bankingSystem.addHistoryToAccount(accountID, new Transaction(TransactionType.WITHDRAW, amount, description));
 										}
 										break;
 										
