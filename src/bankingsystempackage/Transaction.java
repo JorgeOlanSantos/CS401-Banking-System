@@ -8,7 +8,7 @@ public class Transaction {
 	private double amount;
 	private TransactionType type;
 	
-	Transaction(TransactionType type, double amount, String description) {
+	public Transaction(TransactionType type, double amount, String description) {
 		date = new Date();
 		this.description = description;
 		this.amount = amount;
