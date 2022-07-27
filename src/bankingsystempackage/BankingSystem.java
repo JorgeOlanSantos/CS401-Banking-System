@@ -17,7 +17,7 @@ public class BankingSystem {
 	ArrayList<Customer> customers;
 	ArrayList<Account> accounts;
 	
-	BankingSystem() {
+	public BankingSystem() {
 		tellers = new ArrayList<User>();
 		customers = new ArrayList<Customer>();
 		accounts = new ArrayList<Account>();
