@@ -13,7 +13,7 @@ public class Server {
 	public static void main(String[] args) throws IOException {
 		
 		BankingSystem bankingSystem = new BankingSystem();
-		
+		bankingSystem.dummyData();
 		bankingSystem.saveData();
 		bankingSystem.readData();
 		System.out.println(bankingSystem.customersToString());

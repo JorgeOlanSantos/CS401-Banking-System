@@ -1,24 +1,31 @@
 package bankingsystempackage;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class Account {
+public class Account implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	String accountID;
 	double balance;
 	ArrayList<String> customerIDS;
+	ArrayList<Action> history;
 
-	
-	public Account(String customerAcc, double customerBal)
-	{
-		accountID = customerAcc;
-		balance = customerBal;
+	public Account() {
+		accountID = null;
+		balance = 0;
+		customerIDS = null;
+		history = null;
 	}
 	
-	public Account(ArrayList<String> IDS, double amount)
+	public Account(String accountID, ArrayList<String> IDS, double balance)
 	{
+		this.accountID = accountID;
+		this.balance = balance;
+		//Collections.copy(customerIDS, IDS);
 		customerIDS = IDS;
-		this.balance = amount;
+		this.history = new ArrayList<Action>();
 	}
 	
 	// Getter method for account ID.
@@ -60,7 +67,6 @@ public class Account {
 	{
 		customerIDS.add(customerID);
 	}
-	
 	
 	// Method is designed to remove a customer from an account.
 	boolean removeCustomer(String customerID)

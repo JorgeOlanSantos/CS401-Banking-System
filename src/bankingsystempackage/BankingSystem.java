@@ -21,8 +21,26 @@ public class BankingSystem {
 		tellers = new ArrayList<User>();
 		customers = new ArrayList<Customer>();
 		accounts = new ArrayList<Account>();
+	}
+	
+	// Fills tellers, customers, and accounts with dummy data for initial testing
+	public void dummyData() {
+		tellers = new ArrayList<User>();
+		customers = new ArrayList<Customer>();
+		accounts = new ArrayList<Account>();
 		
 		customers.add(new Customer("Example User", "exampleuser", "password", (short)1234, "1234 Fake Road"));
+		customers.add(new Customer("John Doe", "johnD56", "password", (short)7833, "4699 New York Avenue"));
+		customers.add(new Customer("Thomas Jones", "racecarTom234", "password", (short)9573, "4480 Lyon Avenue"));
+		customers.add(new Customer("Ana Brown", "Ana042banana", "password", (short)2364, "1541 Brookside Drive"));
+		
+		tellers.add(new User("Example Teller", "exampleteller", "password"));
+		
+		ArrayList<String> tempIDList = new ArrayList<String>();
+		tempIDList.add(customers.get(0).getID());
+		tempIDList.add(customers.get(1).getID());
+		
+		accounts.add(new Account("exampleaccount", tempIDList, 3456));
 	}
 	
 	// Getters
@@ -55,19 +73,24 @@ public class BankingSystem {
 	@SuppressWarnings("unchecked")
 	public void readData() throws EOFException {
 		try {
+			// read from customer file
 			FileInputStream fileInputStream = new FileInputStream(new File("CustomerData.txt"));
 			ObjectInputStream inputStream = new ObjectInputStream(fileInputStream);
-			
 			customers = (ArrayList<Customer>) inputStream.readObject();
+			fileInputStream.close();
+			inputStream.close();
 			
-			/*
-			Customer customer = null;
-			while ((customer = (Customer) inputStream.readObject()) != null) {
-				System.out.println(customer.toString());
-				customers.add(customer);
-			}
-			*/
+			// read from teller file
+			fileInputStream = new FileInputStream(new File("TellerData.txt"));
+			inputStream = new ObjectInputStream(fileInputStream);
+			tellers = (ArrayList<User>) inputStream.readObject();
+			fileInputStream.close();
+			inputStream.close();
 			
+			// Read from account file
+			fileInputStream = new FileInputStream(new File("AccountData.txt"));
+			inputStream = new ObjectInputStream(fileInputStream);
+			accounts = (ArrayList<Account>) inputStream.readObject();
 			fileInputStream.close();
 			inputStream.close();
 			
@@ -75,9 +98,6 @@ public class BankingSystem {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (EOFException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -88,11 +108,24 @@ public class BankingSystem {
 	
 	public void saveData() {
 		try {
+			// save customer file
 			FileOutputStream fileOutputStream = new FileOutputStream(new File("CustomerData.txt"));
 			ObjectOutputStream outputStream = new ObjectOutputStream(fileOutputStream);
-			
 			outputStream.writeObject(customers);
+			fileOutputStream.close();
+			outputStream.close();
 			
+			// save teller file
+			fileOutputStream = new FileOutputStream(new File("TellerData.txt"));
+			outputStream = new ObjectOutputStream(fileOutputStream);
+			outputStream.writeObject(tellers);
+			fileOutputStream.close();
+			outputStream.close();
+			
+			// save account file
+			fileOutputStream = new FileOutputStream(new File("AccountData.txt"));
+			outputStream = new ObjectOutputStream(fileOutputStream);
+			outputStream.writeObject(accounts);
 			fileOutputStream.close();
 			outputStream.close();
 			

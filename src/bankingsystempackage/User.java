@@ -5,10 +5,9 @@ import java.io.Serializable;
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	String name;                    // User name
-	//String ID;                      // User ID number   - within login
-	//Vector<ActionType> permissions; // User permissions - within login
-	public Login login;             // Login object
+	protected String name;				// User name
+	//String ID;						// User ID number   - within login
+	protected Login login;				// Login object
 	
 	public User(String name, String ID, String password) { // Constructor
 		setName(name);               // Set user name

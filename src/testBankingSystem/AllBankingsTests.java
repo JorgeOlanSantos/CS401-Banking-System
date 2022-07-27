@@ -10,5 +10,5 @@ import bankingsystempackage.*;
 @SuiteClasses({
 	UserTest.class, Customer.class
 	})
-public class AllBankingTests {
+public class AllBankingsTests {
 }
