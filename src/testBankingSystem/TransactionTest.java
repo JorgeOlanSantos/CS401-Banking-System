@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Date;
 
-//import org.junit.jupiter.api.Test; // "No runnable methods" issue with test runner
-import org.junit.Test;               // To code @Test methods
-
+import org.junit.jupiter.api.RepeatedTest; // To code @RepeatedTest methods
+//import org.junit.jupiter.api.Test;       // "No runnable methods" issue with test runner
+import org.junit.Test;                     // To code @Test methods
 
 import bankingsystempackage.Transaction;
 import bankingsystempackage.TransactionType;
@@ -36,7 +36,7 @@ public class TransactionTest {
 
 	}
 	
-	@Test
+	@RepeatedTest(10)
 	public void testGetDate() {
 		Date testDate = new Date(); // Get Date as soon as test runs for accuracy
 		
