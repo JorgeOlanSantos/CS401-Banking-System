@@ -36,7 +36,7 @@ class UserTest { // Test Customer class
 	}
 	
 	@Test
-	void testConstructorLogintoString() {
+	void testConstructorLoginToString() {
 		// Create new User object with test input
 		User user = new User(testName, testID, testPassword);
 		
