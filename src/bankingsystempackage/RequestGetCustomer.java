@@ -5,7 +5,7 @@ public class RequestGetCustomer extends Request {
 	private String customerID;
 	private Customer customer;
 	
-	RequestGetCustomer(String customerID) {
+	public RequestGetCustomer(String customerID) {
 		type = RequestType.GETCUSTOMER;
 		this.customerID = customerID;
 	}
