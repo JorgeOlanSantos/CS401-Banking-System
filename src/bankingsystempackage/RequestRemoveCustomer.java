@@ -4,7 +4,7 @@ package bankingsystempackage;
 public class RequestRemoveCustomer extends Request {
 	String customerID;
 	
-	RequestRemoveCustomer(String ID) {
+	public RequestRemoveCustomer(String ID) {
 		type = RequestType.REMOVECUSTOMER;
 		customerID = ID;
 	}
