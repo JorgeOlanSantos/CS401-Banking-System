@@ -4,7 +4,7 @@ package bankingsystempackage;
 public class RequestCreateAccount extends Request {
 	Account account;
 	
-	RequestCreateAccount(Account account) {
+	public RequestCreateAccount(Account account) {
 		type = RequestType.CREATEACCOUNT;
 		this.account = account;
 	}
