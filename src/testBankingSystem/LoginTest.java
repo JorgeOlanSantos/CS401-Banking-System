@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 //import org.junit.jupiter.api.Test;              // "No runnable methods" issue with test runner
 import org.junit.Test;                            // To code @Test methods
 
-
 import bankingsystempackage.Login;
 
 public class LoginTest {//Test Login class
@@ -28,11 +27,18 @@ public class LoginTest {//Test Login class
 	@Test
 	public void testLoginToString() {
 		// Create new User object with test input
-		//Login login = new Login( testID, testPassword);
+		Login login = new Login(testID, testPassword);
 		
 		String LoginString = "ID: " + testID + ", password: " + testPassword;
 		
-		assertEquals(LoginString, LoginString.toString()); // Check toString
+		assertEquals(LoginString, login.toString()); // Check toString
 	}
-
+	
+	@Test
+	public void testVerifyLogin() {
+		// Create new User object with test input
+		Login login = new Login(testID, testPassword);
+				
+		assertTrue(login.verifyLogin(login)); // Check verifyLogin
+	}
 }
