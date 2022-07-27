@@ -1,3 +1,10 @@
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -169,6 +176,10 @@ OptionATMGUI(String name) {
 	}
 
 @Override
+//Connecting to a server
+private void connectToServer()throws IOException{
+	connection = new Socket(Inet.Address.getByName(serverIP),1337);	
+}
 public void actionPerformed(ActionEvent e) {
 	if(e.getSource() == withdrawal) {
 		
