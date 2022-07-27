@@ -4,7 +4,7 @@ package bankingsystempackage;
 public class RequestCloseAccount extends Request {
 	private String accountID;
 	
-	RequestCloseAccount(String accountID) {
+	public RequestCloseAccount(String accountID) {
 		this.type = RequestType.CLOSEACCOUNT;
 		this.accountID = accountID;
 	}
