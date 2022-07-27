@@ -10,7 +10,7 @@ public class Account implements Serializable {
 	private String accountID;
 	private double balance;
 	private ArrayList<String> customerIDS;
-	private ArrayList<Action> history;
+	private ArrayList<Transaction> history;
 
 	public Account() {
 		accountID = null;
@@ -25,7 +25,7 @@ public class Account implements Serializable {
 		this.balance = balance;
 		//Collections.copy(customerIDS, IDS);
 		customerIDS = IDS;
-		this.history = new ArrayList<Action>();
+		this.history = new ArrayList<Transaction>();
 	}
 	
 	// Getter method for account ID.
@@ -40,7 +40,7 @@ public class Account implements Serializable {
 		return balance;
 	}
 	
-	public ArrayList<Action> getHistory() {
+	public ArrayList<Transaction> getHistory() {
 		return history;
 	}
 	
@@ -72,7 +72,8 @@ public class Account implements Serializable {
 		customerIDS.add(customerID);
 	}
 	
-	public void addHistory(Action newAction) {
+	// Adds a transaction to account's transaction history
+	public void addHistory(Transaction newAction) {
 		history.add(newAction);
 	}
 	
