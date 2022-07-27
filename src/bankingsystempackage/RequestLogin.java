@@ -10,7 +10,7 @@ public class RequestLogin extends Request {
 	private User user;
 	private ArrayList<Account> accounts;
 	
-	RequestLogin(Login login) {
+	public RequestLogin(Login login) {
 		this.type = RequestType.LOGIN;
 		this.login = login;
 		user = null;
