@@ -190,10 +190,15 @@ public class BankingSystem {
 		return false;
 	}
 	
-	public void deleteCustomer() {
-		
+	public boolean removeCustomer(String customerID) {
+		for (int i = 0; i < customers.size(); i++) {
+			if (customers.get(i).getID().equals(customerID)) {
+				customers.remove(i);
+				return true;
+			}
+		}
+		return false;
 	}
-	
 	
 	// Request Methods
 	
@@ -243,16 +248,6 @@ public class BankingSystem {
 			}
 		}
 		return null;
-	}
-	
-	public boolean removeCustomer(String customerID) {
-		for (int i = 0; i < customers.size(); i++) {
-			if (customers.get(i).getID().equals(customerID)) {
-				customers.remove(i);
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	public boolean transfer(String firstID, String secondID, double amount) {
