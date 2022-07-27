@@ -48,14 +48,19 @@ public class ATMGUI implements ActionListener {
 		//labels
 		label1.setText("ATM");								//text
 		label1.setHorizontalAlignment(JLabel.CENTER);		//placement within panel 
+		label1.setVerticalAlignment(JLabel.BOTTOM);
 		label1.setForeground(Color.white);
-		label1.setFont(new Font("MV Boli", Font.BOLD, 40));
+		label1.setFont(new Font("Futura", Font.BOLD, 60));
 
 		
 		label2.setText("ID:");
+		label2.setFont(new Font("Futura", Font.BOLD, 12));
+		label2.setForeground(Color.white);
 		label2.setBounds(175,90,80,25);
 		
 		label3.setText("Password:");
+		label3.setFont(new Font("Futura", Font.BOLD, 12));
+		label3.setForeground(Color.white);
 		label3.setBounds(130,145,80,25);
 		
 		//frame
@@ -100,7 +105,7 @@ public class ATMGUI implements ActionListener {
 		subc.setPreferredSize(new Dimension(350,335));
 		
 		//set color of sub-panels
-		subn.setBackground(new Color(0x006299));
+		subn.setBackground(new Color(0x123456));
 		subw.setBackground(new Color(0x006299));
 		subc.setBackground(new Color(0x006299));
 		
@@ -148,11 +153,11 @@ public class ATMGUI implements ActionListener {
 			
 			//pass object here and wait for approval
 			
-			//if approved close this window and open OptionATMGUI
+		//if approved close this window and open OptionATMGUI
 			frame.dispose();
 			OptionATMGUI option = new OptionATMGUI("Matthew");
 			
-			//if not approved then send error message
+		//if not approved then send error message
 			/*JOptionPane.showMessageDialog(
 					null, 
 					"The user ID or password is incorrect. This is easily corrected by typing the correct user name and password.", 
