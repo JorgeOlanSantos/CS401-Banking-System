@@ -33,7 +33,7 @@ public class Transaction {
 		return amount;
 	}
 
-	public ActionType getType() {
+	public TransactionType getType() {
 		return type;
 	}
 	
