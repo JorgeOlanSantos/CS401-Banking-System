@@ -17,27 +17,27 @@ public class TransactionTest {
 	double testAmount = 0;
 	TransactionType testType;
 	@Test
-	void testGetDescription() {
+	public void testGetDescription() {
 		Transaction tr = new Transaction( testType, testAmount, testDescription);
 		assertEquals(testDescription, tr.getDescription());
 
 	}
 	@Test
-	void testGetAmount() {
+	public void testGetAmount() {
 		Transaction tr = new Transaction( testType, testAmount, testDescription);
 		assertEquals(testAmount, tr.getAmount());
 
 	}
 	
 	@Test
-	void testGetType() {
+	public void testGetType() {
 		Transaction tr = new Transaction( testType, testAmount, testDescription);
 		assertEquals(testType, tr.getType());
 
 	}
 	
 	@Test
-	void testGetDate() {
+	public void testGetDate() {
 		Date testDate = new Date(); // Get Date as soon as test runs for accuracy
 		
 		Transaction tr = new Transaction( testType, testAmount, testDescription);
