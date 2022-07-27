@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import bankingsystempackage.Login;
-import bankingsystempackage.User;
 
 class LoginTest {//Test Login class
 	String testID = "ID";
@@ -14,19 +13,19 @@ class LoginTest {//Test Login class
 	@Test
 	void testConstructorLoginID() {
 		// Create new User object with test input
-		bankingsystempackage.Login login = new bankingsystempackage.Login(testID, testPassword);
+		Login login = new Login(testID, testPassword);
 		
 		assertEquals(testID, login.getID()); // Check ID
 	}
 	@Test
 	void testLoginPassword() {
 		// Create new User object with test input
-		bankingsystempackage.Login login = new bankingsystempackage.Login(testID, testPassword);
+		Login login = new Login(testID, testPassword);
 		
 		assertEquals(testPassword, login.getPassword()); // Check Password
 	}
 	@Test
-	void testLogintoString() {
+	void testLoginToString() {
 		// Create new User object with test input
 		//Login login = new Login( testID, testPassword);
 		
