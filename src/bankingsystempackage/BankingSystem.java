@@ -199,17 +199,32 @@ public class BankingSystem {
 	public boolean closeAccount(String accountID) {
 		for (int i = 0; i < accounts.size(); i++) {
 			if (accounts.get(i).getAccountID().equals(accountID)) {
-				accounts.remove(i);
+				
+				// First withdraw or transfer remaining balance
+				
+				// Delete account instead of just removing?
+				// Account acct = accounts.get(i);
+				// accounts.remove(i);
+				// acct = null
+				
+				accounts.remove(i); // Remove found account
+				
 				return true;
 			}
 		}
 		return false;
 	}
 	
+	// Removes customer from bank system
 	public boolean removeCustomer(String customerID) {
 		for (int i = 0; i < customers.size(); i++) {
 			if (customers.get(i).getID().equals(customerID)) {
-				customers.remove(i);
+				
+				// Remove customer's ID from their accounts
+				
+				// Close customer's non-joint accounts first
+				
+				customers.remove(i); // Remove found customer
 				return true;
 			}
 		}
@@ -218,7 +233,7 @@ public class BankingSystem {
 	
 	public boolean removeCustomerFromAccount(String customerID, Account account) {
 		try {
-			// Add customer to account if it exists
+			// Remove customer from account if it exists
 			account.removeCustomer(customerID);
 			
 			return true;
