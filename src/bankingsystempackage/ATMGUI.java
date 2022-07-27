@@ -32,7 +32,7 @@ public class ATMGUI implements ActionListener {
 	JTextField userId;
 	JPasswordField passText;
 	
-	ATMGUI(){
+	public ATMGUI(){
 		
 		//button
 		login.setBounds(115,200,65,25);
