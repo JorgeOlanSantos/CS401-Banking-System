@@ -4,45 +4,45 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class AccountTest {
+public class AccountTest {
 
 	@Test
-	void testGetAccountID() {
+	public void testGetAccountID() {
 		fail("Not yet implemented");
 	}
 	
 	@Test
-	void testGetBalance() {
+	public void testGetBalance() {
 		fail("Not yet implemented");
 	}
 	
 	@Test
-	void testGetHistory() {
+	public void testGetHistory() {
 		fail("Not yet implemented");
 	}
 	
 	@Test
-	void testGetCustomerIDS() {
+	public void testGetCustomerIDS() {
 		fail("Not yet implemented");
 	}
 	
 	@Test
-	void testDeposit() {
+	public void testDeposit() {
 		fail("Not yet implemented");
 	}
 	
 	@Test
-	void testWithdraw() {
+	public void testWithdraw() {
 		fail("Not yet implemented");
 	}
 	
 	@Test
-	void testAddCustomerID() {
+	public void testAddCustomerID() {
 		fail("Not yet implemented");
 	}
 	
 	@Test
-	void testRemoveCustomer() {
+	public void testRemoveCustomer() {
 		fail("Not yet implemented");
 	}
 }
