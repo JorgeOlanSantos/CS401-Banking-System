@@ -32,7 +32,7 @@ public class BankTellerUserGUI implements ActionListener {
 	JTextField userId;
 	JPasswordField passText;
 	
-	BankTellerUserGUI(String name){
+	public BankTellerUserGUI(String name){
 		
 		//button set up: dimensions, placement, color
 		login.setBounds(600,150,100,40);
