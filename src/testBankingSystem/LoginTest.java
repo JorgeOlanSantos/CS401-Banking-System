@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import bankingsystempackage.Login;
 
-class LoginTest {//Test Login class
+public class LoginTest {//Test Login class
 	String testID = "ID";
 	String testPassword = "Password";
 
