@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*; // To use assertions
 //import org.junit.jupiter.api.Test;              // "No runnable methods" issue with test runner
 import org.junit.Test;                            // To code @Test methods
 
-
 import bankingsystempackage.*;
 
 public class CustomerTest { // Test Customer class
