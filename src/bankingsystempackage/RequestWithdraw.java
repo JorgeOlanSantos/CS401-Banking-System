@@ -21,6 +21,10 @@ public class RequestWithdraw extends Request {
 		return accountID;
 	}
 	
+	public String getDescription() {
+		return description;
+	}
+	
 	public String toString() {
 		return "[" + date + "] " + type + " - amount:" + amount + ", accountID:" + accountID + ", description:" + description;
 	}

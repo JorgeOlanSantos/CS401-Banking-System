@@ -124,6 +124,7 @@ public class Server {
 									
 									String accountID;
 									double amount;
+									String description;
 									boolean statusResult = false;
 									switch(clientRequest.getType()) {
 									
@@ -142,7 +143,11 @@ public class Server {
 									case DEPOSIT:
 										accountID = ((RequestDeposit)clientRequest).getAccountID();
 										amount = ((RequestDeposit)clientRequest).getAmount();
+										description = ((RequestDeposit)clientRequest).getDescription();
 										statusResult = bankingSystem.deposit(accountID, amount);
+										if (statusResult) {
+											bankingSystem.addHistoryToAccount(accountID, new Action(ActionType.DEPOSIT, amount, description));
+										}
 										break;
 										
 									case GETACCOUNT:
@@ -180,14 +185,25 @@ public class Server {
 									case TRANSFER:
 										String accountID1 = ((RequestTransfer)clientRequest).getAccountID1();
 										String accountID2 = ((RequestTransfer)clientRequest).getAccountID2();
+										description = ((RequestWithdraw)clientRequest).getDescription();
 										amount = ((RequestTransfer)clientRequest).getAmount();
 										statusResult = bankingSystem.transfer(accountID1, accountID2, amount);
+										if (statusResult) {
+											bankingSystem.addHistoryToAccount(accountID1, 
+													new Action(ActionType.TRANSFER, -1 * Math.abs(amount), description));
+											bankingSystem.addHistoryToAccount(accountID2, 
+													new Action(ActionType.TRANSFER, Math.abs(amount), description));
+										}
 										break;
 										
 									case WITHDRAW:
 										accountID = ((RequestWithdraw)clientRequest).getAccountID();
 										amount = ((RequestWithdraw)clientRequest).getAmount();
+										description = ((RequestWithdraw)clientRequest).getDescription();
 										statusResult = bankingSystem.withdraw(accountID, amount);
+										if (statusResult) {
+											bankingSystem.addHistoryToAccount(accountID, new Action(ActionType.WITHDRAW, amount, description));
+										}
 										break;
 										
 									default:

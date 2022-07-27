@@ -202,6 +202,8 @@ public class BankingSystem {
 	}
 	
 	public boolean deposit(String accountID, double amount) {
+		amount = Math.abs(amount);
+		
 		for (int i = 0; i < accounts.size(); i++) {
 			if (accounts.get(i).getAccountID().equals(accountID)) {
 				accounts.get(i).deposit(amount);
@@ -240,6 +242,8 @@ public class BankingSystem {
 	}
 	
 	public boolean transfer(String firstID, String secondID, double amount) {
+		amount = Math.abs(amount);
+		
 		int firstIDpos = -1, secondIDpos = -1;
 		for (int i = 0; i < accounts.size() && ((firstIDpos == -1) || secondIDpos == -1); i++) {
 			if (accounts.get(i).getAccountID().equals(firstID)) {
@@ -263,6 +267,8 @@ public class BankingSystem {
 	}
 	
 	public boolean withdraw(String accountID, double amount) {
+		amount = Math.abs(amount);
+		
 		for (int i = 0; i < accounts.size(); i++) {
 			if (accounts.get(i).getAccountID().equals(accountID)) {
 				accounts.get(i).withdraw(amount);
@@ -272,7 +278,17 @@ public class BankingSystem {
 		return false;
 	}
 	
-	// to string methods
+	// other methods
+	
+	public boolean addHistoryToAccount(String accountID, Action action) {
+		for (int i = 0; i < accounts.size(); i++) {
+			if (accounts.get(i).getAccountID().equals(accountID)) {
+				accounts.get(i).addHistory(action);
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	public String customersToString() {
 		String output = "";
