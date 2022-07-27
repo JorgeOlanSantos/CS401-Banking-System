@@ -47,10 +47,24 @@ public class BankingSystem {
 	// --------------------
 	
 	public User getTeller(Login login) {
+		// Search tellers array
+		for(User teller : tellers) {
+			if(teller.getID() == login.getID()) {
+				return teller;
+			}
+		}
+		
 		return null;
 	}
 	
 	public Customer getCustomer(Login login) {
+		// Search customers array
+		for(Customer customer : customers) {
+			if(customer.getID() == login.getID()) {
+				return customer;
+			}
+		}
+		
 		return null;
 	}
 	
