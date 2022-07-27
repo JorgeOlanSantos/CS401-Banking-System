@@ -2,12 +2,6 @@ package bankingsystempackage;
 
 import java.util.Date;
 
-public enum TransactionType {
-	DEPOSIT,
-	WITHDRAW,
-	TRANSFER
-}
-
 public class Transaction {
 	private Date date;
 	private String description;
