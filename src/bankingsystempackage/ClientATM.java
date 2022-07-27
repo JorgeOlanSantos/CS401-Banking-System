@@ -87,6 +87,9 @@ public class ClientATM {
 						System.out.println("[" + fullIP + "](" + serverMsg.getType() + "): " + serverMsg.getText());
 					}
 					*/
+					System.out.print("Logging out.");           // Print feedback // Replace with GUI response
+					RequestLogout logout = new RequestLogout(); // Create logout object
+					objectOutputStream.writeObject(logout);     // Send logout object
 					break;
 				}
 				
