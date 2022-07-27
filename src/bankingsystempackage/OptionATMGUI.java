@@ -1,16 +1,10 @@
-package bankingsystempackage;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,6 +15,7 @@ import javax.swing.JTextField;
 
 public class OptionATMGUI implements ActionListener{
 	
+	//----------------------MAIN GUI----------------------------
 	private static JFrame frame = new JFrame();
 	private static JButton withdrawal = new JButton("Withdrawal");
 	private static JButton deposit = new JButton("Deposit");
@@ -42,27 +37,38 @@ public class OptionATMGUI implements ActionListener{
 	JTextField userId;
 	JPasswordField passText;
 	
-	private Socket socket;
-	private ObjectOutputStream objectOutputStream;
-    private ObjectInputStream objectInputStream;
-    
-    private Customer currentCustomer;
-    private ArrayList<Account> accounts;
-    
-    private int currentAccountPos;
 	
-    public OptionATMGUI(RequestLogin login) throws IOException {
-    	//-----------------socket-----------------
-		socket = new Socket("localhost", 7777);
-		objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-		objectInputStream = new ObjectInputStream(socket.getInputStream());	
-		
-		//save initial login data
-		this.currentCustomer = (Customer)login.getUser();
-		this.accounts = login.getAccounts();
-		currentAccountPos = 0;
-		
-		
+	//-----------------GetAmountGUI--------------------------
+	private static JFrame pin = new JFrame();
+	
+	private static JLabel dispamount = new JLabel();
+	private static JLabel money = new JLabel("$");
+	
+	private static JPanel top = new JPanel();
+	private static JPanel buttons = new JPanel();
+	
+	private static JButton one = new JButton("1");
+	private static JButton two = new JButton("2");
+	private static JButton three = new JButton("3");
+	private static JButton four = new JButton("4");
+	private static JButton five = new JButton("5");
+	private static JButton six = new JButton("6");
+	private static JButton seven = new JButton("7");
+	private static JButton eight = new JButton("8");
+	private static JButton nine = new JButton("9");
+	private static JButton zero = new JButton("0");
+	private static JButton delete = new JButton("<-");
+	private static JButton enter = new JButton("Enter");
+	
+	private int withdrawalA = 0;
+	private int depositA = 0;
+	private int transferA = 0;
+	private int type = 0;
+	
+	private String input = "";
+	
+	
+OptionATMGUI(String name) {
 		
 		//set up buttons and there settings
 		withdrawal.setBounds(100,70,300,70);
@@ -102,27 +108,25 @@ public class OptionATMGUI implements ActionListener{
 
 		
 		//set up labels, settings, and messages they hold
-		label1.setText("Welcome " + login.getUser().getName());				//insert name here
+		label1.setText("Welcome " + name);				//insert name here
 		label1.setBounds(150,50,500,25);
 		//label1.setForeground(new Color(0x00FF00))
 		label1.setForeground(Color.white);
 		label1.setFont(new Font("Futura", Font.BOLD, 40));
 		
-		label2.setText("Account #1: $" + accounts.get(0).getBalance());					//insert account 1 name and money amount here
+		label2.setText("Account #1");					//insert account 1 name and money amount here
 		label2.setBounds(50,100,200,25);
 		label2.setForeground(Color.white);
 		label2.setFont(new Font("Futura", Font.BOLD, 15));
 		
-		if (accounts.size() > 1) {
-			label3.setText("Account #2 $" + accounts.get(1).getBalance());					//insert account 2 name and money amount here
-			label3.setBounds(400,100,200,25);
-			label3.setForeground(Color.white);
-			label3.setFont(new Font("Futura", Font.BOLD, 15));
-		}
+		label3.setText("Account #2");					//insert account 2 name and money amount here
+		label3.setBounds(400,100,200,25);
+		label3.setForeground(Color.white);
+		label3.setFont(new Font("Futura", Font.BOLD, 15));
 		
 		//3rd account could go here 
 		
-		label4.setText("Current Account: Account#1");
+		label4.setText("Current Account: ");
 		label4.setBounds(50,50,200,25);
 		label4.setForeground(Color.orange);
 		label4.setFont(new Font("Futura ", Font.BOLD, 15));
@@ -131,7 +135,7 @@ public class OptionATMGUI implements ActionListener{
 		frame.setSize(1000, 750); 					//sets frame size
 		frame.setLayout(new BorderLayout());
 		frame.setResizable(false);  				//prevents frame from being resized 
-		frame.setUndecorated(true);   //remove the title bar
+		//frame.setUndecorated(true);   remove the title bar
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		//exits program 
 		//frame.getContentPane().setBackground(new Color(0x123456));
 		
@@ -191,105 +195,195 @@ public class OptionATMGUI implements ActionListener{
 
 		
 		frame.setVisible(true);	//makes frame visible
-	}
-    
-	public boolean updateAccount(Account account) {
-		for (int i = 0; i < accounts.size(); i++) {
-			if (accounts.get(i).getAccountID().equals(account.getAccountID())) {
-				accounts.set(i, account);
-				return true;
-			}
-		}
-		return false;
+		
+		
+		
+		
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == withdrawal) {
-			
-			GetAmountGUI amountGUI = new GetAmountGUI();
-			
-			RequestWithdraw request = new RequestWithdraw(amountGUI.getAmount(), accounts.get(currentAccountPos).getAccountID(), "");
-			try {
-				objectOutputStream.writeObject(request);
-				RequestWithdraw response = (RequestWithdraw)objectInputStream.readObject();
-				if (response.getStatus() == Status.SUCCESS) {
-					updateAccount(response.getAccount());
-				}
-			} catch (IOException | ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
-		
-		if(e.getSource() == deposit) {
-			
-			GetAmountGUI amountGUI = new GetAmountGUI();
-			
-			RequestDeposit request = new RequestDeposit(amountGUI.getAmount(), accounts.get(currentAccountPos).getAccountID(), "");
-			try {
-				objectOutputStream.writeObject(request);
-				RequestDeposit response = (RequestDeposit)objectInputStream.readObject();
-				if (response.getStatus() == Status.SUCCESS) {
-					updateAccount(response.getAccount());
-				}
-			} catch (IOException | ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
+public void GetAmountGUI(){
 	
-		if(e.getSource() == transfer) {
-			
-			if (accounts.size() >= 2) {
-				GetAmountGUI amountGUI = new GetAmountGUI();
-				
-				int nextAccountPos = (currentAccountPos + 1) % 2;
-				RequestTransfer request = new RequestTransfer(amountGUI.getAmount(), 
-						accounts.get(currentAccountPos).getAccountID(), 
-						accounts.get(nextAccountPos).getAccountID(), "");
-				try {
-					objectOutputStream.writeObject(request);
-					RequestTransfer response = (RequestTransfer)objectInputStream.readObject();
-					if (response.getStatus() == Status.SUCCESS) {
-						updateAccount(response.getAccount1());
-						updateAccount(response.getAccount2());
-					}
-				} catch (IOException | ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-			
-		}
+	//set up button
+	zero.addActionListener(this);
+	one.addActionListener(this);
+	two.addActionListener(this);
+	three.addActionListener(this);
+	four.addActionListener(this);
+	five.addActionListener(this);
+	six.addActionListener(this);
+	seven.addActionListener(this);
+	eight.addActionListener(this);
+	nine.addActionListener(this);
+	delete.addActionListener(this);
+	enter.addActionListener(this);
 	
-		if(e.getSource() == switchAcc) {
-			
-			if (accounts.size() >= 2) {
-				
-				currentAccountPos = (currentAccountPos + 1) % 2;
-				label4.setText("Current Account: Account#" + (currentAccountPos + 1));
-				
-			}
-		
-		}
-		
-		if(e.getSource() == cancel) {
-			RequestLogout request = new RequestLogout();
-			try {
-				objectOutputStream.writeObject(request);
-				RequestLogout response = (RequestLogout)objectInputStream.readObject();
-				if (response.getStatus() == Status.SUCCESS) {
-					socket.close();
-					objectOutputStream.close();
-					objectInputStream.close();
-					System.exit(0);
-				}
-			} catch (IOException | ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
+	//set up labels
+	dispamount.setForeground(Color.BLACK);
+	dispamount.setFont(new Font("Futura", Font.BOLD, 35));
+	money.setForeground(Color.BLACK);
+	money.setFont(new Font("Futura", Font.BOLD, 35));
+	
+	//set up panels
+	top.setPreferredSize(new Dimension(400,150));
+	top.setLayout(new BorderLayout());
+	//top.setBackground(Color.GREEN);
+	
+	
+	buttons.setPreferredSize(new Dimension(400,400));
+	buttons.setLayout(new GridLayout(4,3));
+	//buttons.setBackground(Color.RED);
+	
+	
+	//set up frame 
+	pin.setSize(400, 550); 					
+	pin.setLayout(new BorderLayout());
+	pin.setResizable(false);  								//prevents frame from being resized 
+	pin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		//exits program 
+	
+	//add elements to frame
+	pin.add(buttons,BorderLayout.SOUTH);
+	pin.add(top,BorderLayout.NORTH);
+	
+	
+	//----------add elements to sub-panels--------------
+	
+	top.add(dispamount,BorderLayout.EAST);
+	top.add(money,BorderLayout.WEST);
+	buttons.add(one);
+	buttons.add(two);
+	buttons.add(three);
+	buttons.add(four);
+	buttons.add(five);
+	buttons.add(six);
+	buttons.add(seven);
+	buttons.add(eight);
+	buttons.add(nine);
+	buttons.add(delete);
+	buttons.add(zero);
+	buttons.add(enter);
+	
+	pin.setVisible(true);	//makes frame visible
+}
+
+
+
+
+
+
+
+@Override
+public void actionPerformed(ActionEvent e) {
+	
+	//----------------Main--------------------------
+	if(e.getSource() == withdrawal) {
+		GetAmountGUI();
+		type = 1;
+
+	}
+	
+	if(e.getSource() == deposit) {
+		GetAmountGUI();
+		type = 2;
+	}
+
+	if(e.getSource() == transfer) {
+		GetAmountGUI();
+		type = 3;
+	}
+
+	if(e.getSource() == switchAcc) {
+	
+	}
+	
+	if(e.getSource() == cancel) {
+		System.out.print(withdrawalA);
+		  System.exit(0);
+	}
+	
+	//--------------GetAmountButton----------------
+	
+	if(e.getSource() == zero) {
+		input = input + "0";
+		dispamount.setText(input);
+	}
+	
+	if(e.getSource() == one) {
+		input = input + "1";
+		dispamount.setText(input);
+	}
+
+	if(e.getSource() == two) {
+		input = input + "2";
+		dispamount.setText(input);
+	}
+
+	if(e.getSource() == three) {
+		input = input + "3";
+		dispamount.setText(input);
+	}
+	
+	if(e.getSource() == four) {
+		input = input + "4";
+		dispamount.setText(input);
+	}
+	if(e.getSource() == five) {
+		input = input + "5";
+		dispamount.setText(input);
 		
 	}
+	
+	if(e.getSource() == six) {
+		input = input + "6";
+		dispamount.setText(input);
+		
+	}
+
+	if(e.getSource() == seven) {
+		input = input + "7";
+		dispamount.setText(input);
+	
+	}
+
+	if(e.getSource() == eight) {
+		input = input + "8";
+		dispamount.setText(input);
+	
+	}
+	
+	if(e.getSource() == nine) {
+		input = input + "9";
+		dispamount.setText(input);
+		  
+	}
+	
+	if(e.getSource() == delete) {
+		input = input.substring(0, input.length() - 1);
+		dispamount.setText(input);
+		
+	}
+
+	if(e.getSource() == enter) {
+		
+		
+
+		switch(type) {
+		case 1: 
+			withdrawalA = Integer.parseInt(input);
+			break;
+		case 2: 
+			withdrawalA = Integer.parseInt(input);
+			break;
+		case 3:
+			withdrawalA = Integer.parseInt(input);
+			break;
+		default: break;
+			
+		}
+		
+		pin.dispose();
+		
+	
+	}
+	
+}
 }
