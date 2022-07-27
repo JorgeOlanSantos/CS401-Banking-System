@@ -68,7 +68,7 @@ public class OptionATMGUI implements ActionListener{
 	private String input = "";
 	
 	
-OptionATMGUI(String name) {
+public OptionATMGUI(String name) {
 		
 		//set up buttons and there settings
 		withdrawal.setBounds(100,70,300,70);
