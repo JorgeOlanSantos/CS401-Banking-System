@@ -9,7 +9,7 @@ public class RequestGetCustomerAccounts extends Request {
 	String customerID;
 	ArrayList<Account> accounts;
 	
-	RequestGetCustomerAccounts(String customerID) {
+	public RequestGetCustomerAccounts(String customerID) {
 		type = RequestType.GETCUSTOMERACCOUNTS;
 		this.customerID = customerID;
 	}
