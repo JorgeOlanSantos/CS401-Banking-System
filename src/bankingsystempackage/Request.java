@@ -32,19 +32,19 @@ public class Request implements Serializable {
 	protected Date date;
 	protected Status status; 
 	
-	Request() {
+	public Request() {
 		type = null;
 		date = new Date();
 		status = Status.PENDING;
 	}
 	
-	Request(RequestType type) {
+	public Request(RequestType type) {
 		this.type = type;
 		date = new Date();
 		status = Status.PENDING;
 	}
 	
-	Request(RequestType type, String description) {
+	public Request(RequestType type, String description) {
 		this.type = type;
 		this.date = new Date();
 		status = Status.PENDING;
