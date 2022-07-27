@@ -10,8 +10,7 @@ public class User implements Serializable {
 	protected Login login;				// Login object
 	
 	public User(String name, String ID, String password) { // Constructor
-		setName(name);               // Set user name
-		//setID(ID);                   // Set user ID
+		this.name = name;                     // Set user name
 		this.login = new Login(ID, password); // Initialize user Login object with ID, password
 	}
 	
