@@ -37,7 +37,7 @@ public class OptionATMGUI implements ActionListener{
 	JTextField userId;
 	JPasswordField passText;
 	
-OptionATMGUI(String name) {
+public OptionATMGUI(String name) {
 		
 		//set up buttons and there settings
 		withdrawal.setBounds(100,70,300,70);
