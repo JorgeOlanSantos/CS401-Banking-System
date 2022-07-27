@@ -1,37 +1,43 @@
 package bankingsystempackage;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class RequestLogin extends Request {
 	private Login login;
 	
 	// used to return data back to the user
-	private Customer customer;
-	private Vector<Account> accounts;
+	private User user;
+	private ArrayList<Account> accounts;
 	
 	RequestLogin(Login login) {
 		this.type = RequestType.LOGIN;
 		this.login = login;
+		user = null;
+		accounts = new ArrayList<Account>();
 	}
 	
 	public Login getLogin() {
 		return login;
 	}
 	
-	public Customer getCustomer() {
-		return customer;
+	public User getUser() {
+		return user;
 	}
 	
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
-	public void setAccounts(Vector<Account> accounts) {
+	public void setAccounts(ArrayList<Account> accounts) {
 		this.accounts = accounts;
 	}
 	
+	public void addAccount(Account newAccount) {
+		accounts.add(newAccount);
+	}
+	
 	public String toString() {
-		return "[" + date + "] " + type + " - login:{" + login.toString() + "} - customer:{" + customer.toString() + "}, accounts:" + accounts;
+		return "[" + date + "] " + type + " - login:{" + login.toString() + "} - customer:{" + user.toString() + "}, accounts:" + accounts;
 	}
 }

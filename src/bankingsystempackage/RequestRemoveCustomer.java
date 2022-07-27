@@ -9,7 +9,7 @@ public class RequestRemoveCustomer extends Request {
 		customerID = ID;
 	}
 	
-	public String getID() {
+	public String getCustomerID() {
 		return customerID;
 	}
 	

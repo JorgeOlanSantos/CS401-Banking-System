@@ -1,6 +1,7 @@
 package bankingsystempackage;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
@@ -22,6 +23,7 @@ public class ClientATM {
 			ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 	        //ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
 	        
+			objectOutputStream.writeObject(new RequestLogin(new Login("test", "test")));
 			
 			//
 	        int option;

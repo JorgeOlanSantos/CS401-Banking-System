@@ -2,18 +2,18 @@ package bankingsystempackage;
 
 @SuppressWarnings("serial")
 public class RequestCreateAccount extends Request {
-	Customer newCustomer;
+	Account account;
 	
-	RequestCreateAccount(Customer customer) {
+	RequestCreateAccount(Account account) {
 		type = RequestType.CREATEACCOUNT;
-		newCustomer = customer;
+		this.account = account;
 	}
 	
-	public Customer getCustomer() {
-		return newCustomer;
+	public Account getAccount() {
+		return account;
 	}
 	
 	public String toString() {
-		return "[" + date + "] " + type + " - " + status + " - newCustomer:" + newCustomer.toString();
+		return "[" + date + "] " + type + " - " + status + " - newCustomer:" + account.toString();
 	}
 }

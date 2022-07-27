@@ -48,4 +48,8 @@ public class User implements Serializable {
 	//public void setID(String ID) { // set user ID
 		//login.ID = ID;
 	//}
+	
+	public String toString() {
+		return "name:" + name + ", login:{" + login.toString() + "}";
+	}
 }

@@ -66,6 +66,18 @@ public class BankingSystem {
 		return accounts;
 	}
 	
+	public ArrayList<Account> getCustomerAccounts(String customerID) {
+		ArrayList<Account> customerAccounts = new ArrayList<Account>();
+		
+		for (int i = 0; i < customerAccounts.size(); i++) {
+			if (customerAccounts.get(i).getCustomerIDS().contains(customerID)) {
+				customerAccounts.add(customerAccounts.get(i));
+			}
+		}
+		
+		return customerAccounts;
+	}
+	
 	
 	// File Methods (Save/Read)
 	// ----------
@@ -141,16 +153,27 @@ public class BankingSystem {
 	
 	// Account/Customer Related Methods
 	// --------------------
-	public void createAccount() {
+	public boolean createAccount(Account newAccount) {
 		
+		accounts.add(newAccount);
+		
+		return true;
 	}
 	
-	public void createCustomer() {
+	public boolean createCustomer(Customer newCustomer) {
+		customers.add(newCustomer);
 		
+		return true;
 	}
 	
-	public void closeAccount() {
-		
+	public boolean closeAccount(String accountID) {
+		for (int i = 0; i < accounts.size(); i++) {
+			if (accounts.get(i).getAccountID().equals(accountID)) {
+				accounts.remove(i);
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public void deleteCustomer() {
@@ -176,6 +199,77 @@ public class BankingSystem {
 		}
 		
 		return null;
+	}
+	
+	public boolean deposit(String accountID, double amount) {
+		for (int i = 0; i < accounts.size(); i++) {
+			if (accounts.get(i).getAccountID().equals(accountID)) {
+				accounts.get(i).deposit(amount);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public Account getAccount(String accountID) {
+		for (int i = 0; i < accounts.size(); i++) {
+			if (accounts.get(i).getAccountID().equals(accountID)) {
+				return accounts.get(i);
+			}
+		}
+		return null;
+	}
+	
+	public Customer getCustomer(String accountID) {
+		for (int i = 0; i < customers.size(); i++) {
+			if (customers.get(i).getID().equals(accountID)) {
+				return customers.get(i);
+			}
+		}
+		return null;
+	}
+	
+	public boolean removeCustomer(String customerID) {
+		for (int i = 0; i < customers.size(); i++) {
+			if (customers.get(i).getID().equals(customerID)) {
+				customers.remove(i);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean transfer(String firstID, String secondID, double amount) {
+		int firstIDpos = -1, secondIDpos = -1;
+		for (int i = 0; i < accounts.size() && ((firstIDpos == -1) || secondIDpos == -1); i++) {
+			if (accounts.get(i).getAccountID().equals(firstID)) {
+				firstIDpos = i;
+				if (accounts.get(i).getBalance() < amount) {
+					return false;
+				}
+			}
+			if (accounts.get(i).getAccountID().equals(secondID)) {
+				secondIDpos = i;
+			}
+		}
+		
+		if ((firstIDpos >= 0) && (secondIDpos >= 0)) {
+			accounts.get(firstIDpos).withdraw(amount);
+			accounts.get(secondIDpos).deposit(amount);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean withdraw(String accountID, double amount) {
+		for (int i = 0; i < accounts.size(); i++) {
+			if (accounts.get(i).getAccountID().equals(accountID)) {
+				accounts.get(i).withdraw(amount);
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	// to string methods

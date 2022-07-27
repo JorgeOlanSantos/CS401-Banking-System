@@ -22,6 +22,10 @@ public class RequestGetCustomerAccounts extends Request {
 		return accounts;
 	}
 	
+	public void setAccounts(ArrayList<Account> accounts) {
+		this.accounts = accounts;
+	}
+	
 	public String toString() {
 		return "[" + date + "] " + type + " - " + status + " - customerID:" + customerID + ", accounts:" + accounts;
 	}
