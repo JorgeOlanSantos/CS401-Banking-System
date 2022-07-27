@@ -2,19 +2,19 @@ package bankingsystempackage;
 
 import java.util.Date;
 
-enum ActionType {
+enum TransactionType {
 	DEPOSIT,
 	WITHDRAW,
 	TRANSFER
 }
 
-public class Action {
+public class Transaction {
 	private Date date;
 	private String description;
 	private double amount;
 	private ActionType type;
 	
-	Action(ActionType type, double amount, String description) {
+	Transaction(TransactionType type, double amount, String description) {
 		date = new Date();
 		this.description = description;
 		this.amount = amount;
