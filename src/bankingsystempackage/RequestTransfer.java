@@ -6,7 +6,7 @@ public class RequestTransfer extends Request {
 	String accountID1, accountID2;
 	String description;
 	
-	RequestTransfer(double amount, String accountID1, String accountID2, String description) {
+	public RequestTransfer(double amount, String accountID1, String accountID2, String description) {
 		this.type = RequestType.TRANSFER;
 		this.amount = Math.abs(amount);
 		this.accountID1 = accountID1;
