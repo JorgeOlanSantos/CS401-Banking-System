@@ -12,21 +12,21 @@ public class LoginTest {//Test Login class
 	String testPassword = "Password";
 
 	@Test
-	void testConstructorLoginID() {
+	public void testConstructorLoginID() {
 		// Create new User object with test input
 		Login login = new Login(testID, testPassword);
 		
 		assertEquals(testID, login.getID()); // Check ID
 	}
 	@Test
-	void testLoginPassword() {
+	public void testLoginPassword() {
 		// Create new User object with test input
 		Login login = new Login(testID, testPassword);
 		
 		assertEquals(testPassword, login.getPassword()); // Check Password
 	}
 	@Test
-	void testLoginToString() {
+	public void testLoginToString() {
 		// Create new User object with test input
 		//Login login = new Login( testID, testPassword);
 		
