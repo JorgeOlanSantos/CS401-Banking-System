@@ -7,6 +7,7 @@ public class Customer extends User { // Class for banking system customer
 	//	Vector<ActionType> permissions; // Customer permissions
 	//	Login login;                    // Login object
 	
+	private static final long serialVersionUID = 1L;
 	// Class attributes
 	String address;   // Customer's home address(?)
 	short pin;        // Customer pin(?)
@@ -74,4 +75,10 @@ public class Customer extends User { // Class for banking system customer
 	// Setters
 	//	public void setName(String name) { this.name = name; } // set user name
 	//	public void setID(String ID) { this.ID = ID; }         // set user ID
+	
+	public String toString() {
+		String output = "";
+		output += "name:" + name + ", login:{" + login.toString() + "}, address:" + address + ", pin:" + pin;
+		return output;
+	}
 }

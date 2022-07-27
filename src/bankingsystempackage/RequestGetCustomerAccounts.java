@@ -1,13 +1,13 @@
 package bankingsystempackage;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 // Request Accounts From Specific Customer
 
 @SuppressWarnings("serial")
 public class RequestGetCustomerAccounts extends Request {
 	String customerID;
-	Vector<Account> accounts;
+	ArrayList<Account> accounts;
 	
 	RequestGetCustomerAccounts(String customerID) {
 		type = RequestType.GETCUSTOMERACCOUNTS;
@@ -18,7 +18,7 @@ public class RequestGetCustomerAccounts extends Request {
 		return customerID;
 	}
 	
-	public Vector<Account> getAccounts() {
+	public ArrayList<Account> getAccounts() {
 		return accounts;
 	}
 	

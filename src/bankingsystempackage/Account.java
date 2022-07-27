@@ -1,12 +1,12 @@
 package bankingsystempackage;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class Account {
 	
 	String accountID;
 	double balance;
-	Vector<String> customerIDS;
+	ArrayList<String> customerIDS;
 
 	
 	public Account(String customerAcc, double customerBal)
@@ -15,7 +15,7 @@ public class Account {
 		balance = customerBal;
 	}
 	
-	public Account(Vector<String> IDS, double amount)
+	public Account(ArrayList<String> IDS, double amount)
 	{
 		customerIDS = IDS;
 		this.balance = amount;
@@ -34,7 +34,7 @@ public class Account {
 	}
 	
 	// Getter method for Customers as a vector of type String.
-	Vector<String> getCustomerIDS()
+	ArrayList<String> getCustomerIDS()
 	{
 		return customerIDS;
 	}

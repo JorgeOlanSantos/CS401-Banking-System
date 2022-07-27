@@ -12,7 +12,11 @@ public class Server {
 
 	public static void main(String[] args) throws IOException {
 		
-		BankingSystem bankingSystem = null;
+		BankingSystem bankingSystem = new BankingSystem();
+		
+		bankingSystem.saveData();
+		bankingSystem.readData();
+		System.out.println(bankingSystem.customersToString());
 		
 		//Scanner sc = new Scanner(System.in);
 		//String input;
