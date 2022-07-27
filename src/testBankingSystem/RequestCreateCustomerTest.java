@@ -10,14 +10,12 @@ import bankingsystempackage.RequestCreateAccount;
 import bankingsystempackage.RequestCreateCustomer;
 
 class RequestCreateCustomerTest {
-
+	private Customer testCustomer;
 	@Test
 	void testCreateCustomer() {
 		// Create new RequestCreateCustomer object with test unit
-		Customer customer = null;
-		RequestCreateCustomer testCustomer = new RequestCreateCustomer(customer);
-		customer = testCustomer.getCustomer();
-		assertEquals(customer,testCustomer.getCustomer()); //Check Create Customer request
+		RequestCreateCustomer customer = new RequestCreateCustomer(testCustomer);
+		assertEquals(testCustomer,customer.getCustomer()); //Check Create Customer request
 	}
 
 }
