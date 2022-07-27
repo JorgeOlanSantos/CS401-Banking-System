@@ -36,6 +36,8 @@ class TransactionTest {
 	
 	@Test
 	void testGetDate() {
+		Date testDate = new Date(); // Get Date as soon as test runs for accuracy
+		
 		Transaction tr = new Transaction( testType, testAmount, testDescription);
 		assertEquals(testDate, tr.getDate());
 
