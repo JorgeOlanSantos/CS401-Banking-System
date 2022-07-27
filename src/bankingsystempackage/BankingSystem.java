@@ -46,6 +46,7 @@ public class BankingSystem {
 	// Getters
 	// --------------------
 	
+	// Finds and returns teller with given login ID if they exist
 	public User getTeller(Login login) {
 		// Search tellers array
 		for(User teller : tellers) {
@@ -57,6 +58,7 @@ public class BankingSystem {
 		return null;
 	}
 	
+	// Finds and returns customer with given login ID if they exist
 	public Customer getCustomer(Login login) {
 		// Search customers array
 		for(Customer customer : customers) {
@@ -180,6 +182,20 @@ public class BankingSystem {
 		return true;
 	}
 	
+	public boolean addCustomerToAccount(String customerID, Account account) {
+		try {
+			// Add customer to account if it exists
+			account.addCustomerID(customerID);
+			
+			return true;
+		}
+		catch(Exception e) {
+			// Account does not exist
+			
+			return false;
+		}
+	}
+	
 	public boolean closeAccount(String accountID) {
 		for (int i = 0; i < accounts.size(); i++) {
 			if (accounts.get(i).getAccountID().equals(accountID)) {
@@ -198,6 +214,20 @@ public class BankingSystem {
 			}
 		}
 		return false;
+	}
+	
+	public boolean removeCustomerFromAccount(String customerID, Account account) {
+		try {
+			// Add customer to account if it exists
+			account.removeCustomer(customerID);
+			
+			return true;
+		}
+		catch(Exception e) {
+			// Account does not exist
+			
+			return false;
+		}
 	}
 	
 	// Request Methods
@@ -232,6 +262,7 @@ public class BankingSystem {
 		return false;
 	}
 	
+	// Finds and returns teller with given ID if they exist
 	public Account getAccount(String accountID) {
 		for (int i = 0; i < accounts.size(); i++) {
 			if (accounts.get(i).getAccountID().equals(accountID)) {
@@ -241,6 +272,7 @@ public class BankingSystem {
 		return null;
 	}
 	
+	// Finds and returns customer with given ID if they exist
 	public Customer getCustomer(String accountID) {
 		for (int i = 0; i < customers.size(); i++) {
 			if (customers.get(i).getID().equals(accountID)) {
@@ -307,6 +339,5 @@ public class BankingSystem {
 		}
 		
 		return output;
-	}
-	
+	}	
 }
