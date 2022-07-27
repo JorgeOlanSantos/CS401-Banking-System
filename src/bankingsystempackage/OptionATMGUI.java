@@ -1,12 +1,3 @@
-package bankingsystempackage;
-
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -91,21 +82,21 @@ OptionATMGUI(String name) {
 		label1.setFont(new Font("Futura", Font.BOLD, 40));
 		
 		label2.setText("Account #1");					//insert account 1 name and money amount here
-		label2.setBounds(50,100,100,25);
+		label2.setBounds(50,100,200,25);
 		label2.setForeground(Color.white);
-		label2.setFont(new Font("Futura", Font.BOLD, 10));
+		label2.setFont(new Font("Futura", Font.BOLD, 15));
 		
 		label3.setText("Account #2");					//insert account 2 name and money amount here
-		label3.setBounds(400,100,100,25);
+		label3.setBounds(400,100,200,25);
 		label3.setForeground(Color.white);
-		label3.setFont(new Font("Futura", Font.BOLD, 10));
+		label3.setFont(new Font("Futura", Font.BOLD, 15));
 		
 		//3rd account could go here 
 		
 		label4.setText("Current Account: ");
-		label4.setBounds(50,50,100,25);
+		label4.setBounds(50,50,200,25);
 		label4.setForeground(Color.orange);
-		label4.setFont(new Font("Futura ", Font.BOLD, 10));
+		label4.setFont(new Font("Futura ", Font.BOLD, 15));
 		
 		//frame
 		frame.setSize(1000, 750); 					//sets frame size
@@ -133,10 +124,10 @@ OptionATMGUI(String name) {
 		frame.add(east,BorderLayout.EAST);
 		frame.add(west,BorderLayout.WEST);
 		
+		
+		
 		//--------Top Panel--------------
-		
-		
-											//Welcome text
+											
 		JPanel subn1 = new JPanel();							//create sub-panels
 		//JPanel subn2 = new JPanel();							//create sub-panels
 		//JPanel subn3 = new JPanel();							//create sub-panels
@@ -148,8 +139,8 @@ OptionATMGUI(String name) {
 		subn1.setLayout(null);
 		
 		//color panel for visual placement
-		subn1.setBackground(new Color(0x123456));
 		//subn.setBackground(Color.pink);
+		subn1.setBackground(new Color(0x123456));
 		
 		north.add(subn1,BorderLayout.SOUTH);		//add bottom sub-panel to top panel
 		north.add(label1);			
@@ -178,17 +169,6 @@ OptionATMGUI(String name) {
 	}
 
 @Override
-//Connecting to a server
-private void connectToServer()throws IOException{
-	connection = new Socket(Inet.Address.getByName(serverIP),1337);	
-}
-// Setting up the stream
-private void setupStream()throws IOException {
-	output = new ObjectOutputStream(connection.getOutputStream());
-	output.flush();
-	input = new ObjectInputStream(connection.getInputStream());
-}
-
 public void actionPerformed(ActionEvent e) {
 	if(e.getSource() == withdrawal) {
 		
@@ -207,7 +187,7 @@ public void actionPerformed(ActionEvent e) {
 	}
 	
 	if(e.getSource() == cancel) {
-		
+		  System.exit(0);
 	}
 	
 }

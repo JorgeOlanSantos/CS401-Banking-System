@@ -1,5 +1,3 @@
-package bankingsystempackage;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -65,7 +63,7 @@ public class ATMGUI implements ActionListener {
 		label3.setForeground(Color.white);
 		label3.setBounds(130,145,80,25);
 		
-		//frame
+		//set up frame dimension and color
 		frame.setSize(1000, 750); 					//sets frame size
 		frame.setLayout(new BorderLayout());
 		frame.setResizable(false);  				//prevents frame from being resized 
@@ -86,6 +84,7 @@ public class ATMGUI implements ActionListener {
 		east.setBackground(new Color(0x006299));
 		west.setBackground(new Color(0x006299));
 	
+		//add panels to frame
 		frame.add(north,BorderLayout.NORTH);
 		frame.add(south,BorderLayout.SOUTH);
 		frame.add(east,BorderLayout.EAST);
@@ -110,6 +109,8 @@ public class ATMGUI implements ActionListener {
 		subn.setBackground(new Color(0x123456));
 		subw.setBackground(new Color(0x006299));
 		subc.setBackground(new Color(0x006299));
+		
+		center.setLayout(new BorderLayout());
 		
 		//add sub-panels to center panel
 		center.add(subn,BorderLayout.NORTH);
@@ -149,15 +150,16 @@ public class ATMGUI implements ActionListener {
 			String id = userId.getText();
 			String password = passText.getText();
 			
-			//removes userId and password after pressing button
+			//removes userId and password after pressing login button
 			userId.setText("");		
 			passText.setText("");			
 			
-			//pass object here and wait for approval
+		//pass object here and wait for approval
 			
 		//if approved close this window and open OptionATMGUI
 			frame.dispose();
 			OptionATMGUI option = new OptionATMGUI("Matthew");
+			
 			
 		//if not approved then send error message
 			/*JOptionPane.showMessageDialog(

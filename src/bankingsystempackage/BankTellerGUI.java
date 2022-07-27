@@ -1,5 +1,3 @@
-package bankingsystempackage;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -50,36 +48,39 @@ public class BankTellerGUI implements ActionListener {
 		label1.setText("Bank Employee Access");								//text
 		label1.setHorizontalAlignment(JLabel.CENTER);		//placement within panel 
 		label1.setForeground(Color.white);
-		label1.setFont(new Font("MV Boli", Font.BOLD, 40));
+		label1.setFont(new Font("Futura", Font.BOLD, 40));
 		
 		label2.setText("ID:");
+		label2.setFont(new Font("Futura", Font.BOLD, 12));
+		label2.setForeground(Color.white);
 		label2.setBounds(175,90,80,25);
 		
 		label3.setText("Password:");
+		label3.setFont(new Font("Futura", Font.BOLD, 12));
+		label3.setForeground(Color.white);
 		label3.setBounds(130,145,80,25);
 		
-		//frame
+		//set up frame dimension and color
 		frame.setSize(1000, 750); 					//sets frame size
 		frame.setLayout(new BorderLayout());
 		frame.setResizable(false);  				//prevents frame from being resized 
-		//frame.setUndecorated(true);   remove the title bar
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		//exits program 
-		frame.getContentPane().setBackground(new Color(0x123456));
+		frame.setBackground(new Color(0x006299));
 		
-		//color panel for visual placement
-		//north.setBackground(Color.blue);
-		//south.setBackground(Color.green);
-		//east.setBackground(Color.yellow);
-		//west.setBackground(Color.orange);
-		//center.setBackground(Color.red);
-		
-		
+		//set dimensions of panels
 		north.setPreferredSize(new Dimension(1000,125));
 		south.setPreferredSize(new Dimension(1000,125));
 		east.setPreferredSize(new Dimension(225,750));
 		west.setPreferredSize(new Dimension(225,750));
 		center.setPreferredSize(new Dimension(550,500));
 		
+		//set color of panels
+		north.setBackground(new Color(0x006299));
+		south.setBackground(new Color(0x006299));
+		east.setBackground(new Color(0x006299));
+		west.setBackground(new Color(0x006299));
+		
+		//add panels to frame
 		frame.add(north,BorderLayout.NORTH);
 		frame.add(south,BorderLayout.SOUTH);
 		frame.add(east,BorderLayout.EAST);
@@ -93,10 +94,10 @@ public class BankTellerGUI implements ActionListener {
 		JPanel subw = new JPanel();
 		JPanel subc = new JPanel();
 		
-		//color panel for visual placement
-		//subn.setBackground(Color.pink);
-		//subw.setBackground(Color.gray);
-		//subc.setBackground(Color.white);
+		//set color of sub-panels
+		subn.setBackground(new Color(0x123456));
+		subw.setBackground(new Color(0x006299));
+		subc.setBackground(new Color(0x006299));
 		
 		center.setLayout(new BorderLayout());
 		
@@ -151,7 +152,7 @@ public class BankTellerGUI implements ActionListener {
 		
 		//if approved close this window and open OptionATMGUI
 		//frame.dispose();
-		//OptionATMGUI option = new OptionATMGUI("Matthew");
+		BankTellerUserGUI usersignin = new BankTellerUserGUI("Matthew");
 		
 		//if not approved then send error message
 		/*JOptionPane.showMessageDialog(
