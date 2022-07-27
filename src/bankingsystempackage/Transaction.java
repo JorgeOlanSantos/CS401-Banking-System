@@ -12,7 +12,7 @@ public class Transaction {
 	private Date date;
 	private String description;
 	private double amount;
-	private ActionType type;
+	private TransactionType type;
 	
 	Transaction(TransactionType type, double amount, String description) {
 		date = new Date();
