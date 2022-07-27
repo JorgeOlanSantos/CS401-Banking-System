@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import bankingsystempackage.Transaction;
 import bankingsystempackage.TransactionType;
 
-class TransactionTest {
+public class TransactionTest {
 	Date testDate = new Date();
 	String testDescription = "Description";
 	double testAmount = 0;
