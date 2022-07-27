@@ -1,4 +1,4 @@
-package testBankingSystem;
+package bankingsystempackage;
 
 public enum TransactionType {
 	DEPOSIT,
