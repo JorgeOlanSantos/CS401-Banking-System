@@ -180,34 +180,228 @@ skinparam linetype ortho
 
 '#Requests
 '#--------------------------------------------------
+enum RequestType {
+    DEPOSIT,
+    WITHDRAW,
+    TRANSFER,
+    CLOSEACCOUNT,
+    CREATEACCOUNT,
+    CREATECUSTOMER,
+    GETACCOUNT,
+    GETCUSTOMER,
+    GETCUSTOMERACCOUNTS,
+    LOGIN,
+    LOGOUT,
+    REMOVECUSTOMER
+}
+
+enum Status {
+    PENDING,
+    FAIL,
+    SUCCESS
+}
+
 abstract class Request {
-    - date: Date
-    - type: ActionType
+    # date: Date
+    __
+    .. Constuctors ..
+    + Request()
+    + Request(RequestType)
+    + Request(RequestType, String)
+    .. Getters ..
+    + getType(): RequestType
+    + getDate(): Date
+    + getStatus(): Status
+    .. Setters ..
+    + setStatus(): Status
+    .. Other Methods ..
+    + toString(): String
+}
+note top: Base Request Class, Polymorphism is used to send and recieve required data based on the type request.
+
+class RequestCloseAccount {
+    - accountID: String
+    __
+    .. Constuctors ..
+    + RequestCloseAccount(String)
+    .. Getters ..
+    + getAccountID(): String
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestCreateAccount {
+    - account: Account
+    __
+    .. Constuctors ..
+    + RequestCreateAccount(Account)
+    .. Getters ..
+    + getAccountID(): Account
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestCreateCustomer {
     - customer: Customer
+    __
+    .. Constuctors ..
+    + RequestCreateCustomer(Customer)
+    .. Getters ..
+    + getCustomer(): Customer
 }
 
-class MoneyRequest {
+class RequestDeposit {
     - amount: double
-    + setType: ActionType
+    - accountID: String
+    - description: String
+    __
+    .. Constuctors ..
+    + RequestDeposit(double, String, String)
+    .. Getters ..
+    + getAmount(): double
+    + getAccountID(): String
+    + getDescription(): String
+    .. Other Methods ..
+    + toString(): String
 }
 
-class TranserRequest {
-    - receivingAccount: Account
+class RequestGetAccount {
+    - accountID: String
+    - account: Account
+    __
+    .. Constuctors ..
+    + RequestGetAccount(String)
+    .. Getters ..
+    + getAccountID(): String
+    + getAccount(): Account
+    .. Setters ..
+    + setAccount(Account): void
+    .. Other Methods ..
+    + toString(): String
 }
 
-class WithdrawRequest {
+class RequestGetCustomer {
+    - customerID: String
+    __
+    .. Constuctors ..
+    + RequestCloseAccount(String)
+    .. Getters ..
+    + getCustomerID(): String
+    + getCustomer(): Customer
+    .. Setters ..
+    + setCustomer(Customer): void
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestGetCustomerAccounts {
+    - customerID: String
+    - accounts: ArrayList<Account>
+    __
+    .. Constuctors ..
+    + RequestGetCustomerAccounts(String)
+    .. Getters ..
+    + getCustomerID(): String
+    + getAccounts(): ArrayList<Account>
+    .. Setters ..
+    + setAccounts(ArrayList<Account>): void
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestLogin {
+    - login: Login
+    - user: User
+    - accounts: ArrayList<Account>
+    __
+    .. Constuctors ..
+    + RequestLogin(Login)
+    .. Getters ..
+    + getLogin(): Login
+    + getUser(): User
+    .. Setters ..
+    + setUser(User): void
+    + setAccounts(ArrayList<Account>): void
+    + addAccount(Account): void
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestLogout {
+    + RequestLogout()
+}
+
+class RequestRemoveCustomer {
+    - customerID: String
+    __
+    .. Constuctors ..
+    + RequestRemoveCustomer(String)
+    .. Getters ..
+    + getCustomerID(): String
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestTransfer {
     - amount: double
-    + WithdrawRequest(double)
+    - accountID1: String
+    - accountID2: String
+    - description: String
+    __
+    .. Constuctors ..
+    + RequestTransfer(double, String, String, String)
+    .. Getters ..
+    + getAmount(): double
+    + getAccountID1(): String
+    + getAccountID2(): String
+    .. Other Methods ..
+    + toString(): String
 }
 
+class RequestWithdraw {
+    - amount: double
+    - accountID: String
+    - description: String
+    __
+    .. Constuctors ..
+    + RequestWithdraw(double, String, String)
+    .. Getters ..
+    + getAmount(): double
+    + getAccountID(): String
+    + getDescription(): String
+    .. Other Methods ..
+    + toString(): String
+}
+
+
+
+'#Class Relations
+'#--------------------------------------------------
+Request "1" *-u- RequestType
+Request "1" *-u- Status
+
+Request <|-l- RequestCloseAccount
+Request <|-l- RequestCreateAccount
+Request <|-l- RequestCreateCustomer
+Request <|-l- RequestDeposit
+Request <|-d- RequestGetAccount
+Request <|-d- RequestGetCustomer
+Request <|-d- RequestGetCustomerAccounts
+Request <|-d- RequestLogin
+Request <|-r- RequestLogout
+Request <|-r- RequestRemoveCustomer
+Request <|-r- RequestTransfer
+Request <|-r- RequestWithdraw
 
 
 '#Styling
 '#--------------------------------------------------
 !theme reddress-darkgreen
 
+'skinparam groupInheritance 4
+
 '#remove line curves but the lines are still not straight
-'skinparam linetype polyline
+skinparam linetype polyline
 '#make the lines straight
-skinparam linetype ortho
+'skinparam linetype ortho
 @enduml
