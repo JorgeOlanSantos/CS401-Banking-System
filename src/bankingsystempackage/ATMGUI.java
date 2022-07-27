@@ -77,7 +77,7 @@ public class ATMGUI implements ActionListener {
 		frame.setSize(1000, 750); 					//sets frame size
 		frame.setLayout(new BorderLayout());
 		frame.setResizable(false);  				//prevents frame from being resized 
-		//frame.setUndecorated(true);   remove the title bar
+		frame.setUndecorated(true);   //remove the title bar
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		//exits program 
 		frame.setBackground(new Color(0x006299));
 		
@@ -173,12 +173,16 @@ public class ATMGUI implements ActionListener {
 			Request request = new RequestLogin(login);
 			try {
 				objectOutputStream.writeObject(request);
-				Request response = (Request)objectInputStream.readObject();
+				RequestLogin response = (RequestLogin)objectInputStream.readObject();
 				if (response.getStatus() == Status.SUCCESS) {
-					frame.dispose();
-					System.out.println(((RequestLogin)response).getUser().getName());
-					OptionATMGUI option = new OptionATMGUI((RequestLogin)response);
-					socket.close();
+					if (response.getUser() instanceof Customer) {
+						frame.dispose();
+						System.out.println(((RequestLogin)response).getUser().getName());
+						OptionATMGUI option = new OptionATMGUI((RequestLogin)response);
+						socket.close();
+					} else {
+						System.out.println("Teller login invalid for customer");
+					}
 				}
 			} catch (IOException | ClassNotFoundException e1) {
 				// TODO Auto-generated catch block

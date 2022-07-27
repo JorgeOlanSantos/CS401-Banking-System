@@ -29,7 +29,7 @@ public class BankingSystem {
 		customers = new ArrayList<Customer>();
 		accounts = new ArrayList<Account>();
 		
-		customers.add(new Customer("Example User", "username", "password", (short)1234, "1234 Fake Road"));
+		customers.add(new Customer("Example Customer", "username", "password", (short)1234, "1234 Fake Road"));
 		customers.add(new Customer("John Doe", "johnD56", "password", (short)7833, "4699 New York Avenue"));
 		customers.add(new Customer("Thomas Jones", "racecarTom234", "password", (short)9573, "4480 Lyon Avenue"));
 		customers.add(new Customer("Ana Brown", "Ana042banana", "password", (short)2364, "1541 Brookside Drive"));
@@ -40,6 +40,14 @@ public class BankingSystem {
 		tempIDList.add(customers.get(0).getID());
 		tempIDList.add(customers.get(1).getID());
 		accounts.add(new Account("exampleaccount", tempIDList, 3456));
+		
+		tempIDList = new ArrayList<String>();
+		tempIDList.add(customers.get(0).getID());
+		accounts.add(new Account("exampleaccount2", tempIDList, 34));
+		
+		tempIDList = new ArrayList<String>();
+		tempIDList.add(customers.get(1).getID());
+		accounts.add(new Account("johnbankaccount", tempIDList, 12630));
 	}
 	
 	// Getters
@@ -84,9 +92,10 @@ public class BankingSystem {
 	public ArrayList<Account> getCustomerAccounts(String customerID) {
 		ArrayList<Account> customerAccounts = new ArrayList<Account>();
 		
-		for (int i = 0; i < customerAccounts.size(); i++) {
-			if (customerAccounts.get(i).getCustomerIDS().contains(customerID)) {
-				customerAccounts.add(customerAccounts.get(i));
+		for (int i = 0; i < accounts.size(); i++) {
+			if (accounts.get(i).getCustomerIDS().contains(customerID)) {
+				System.out.println("test" + accounts.get(i).toString());
+				customerAccounts.add(accounts.get(i));
 			}
 		}
 		

@@ -189,6 +189,8 @@ public class Server {
 										new Transaction(TransactionType.TRANSFER, -1 * Math.abs(amount), description));
 								bankingSystem.addHistoryToAccount(accountID2, 
 										new Transaction(TransactionType.TRANSFER, Math.abs(amount), description));
+								((RequestTransfer)serverResponse).setAccount1(bankingSystem.getAccount(accountID1));
+								((RequestTransfer)serverResponse).setAccount2(bankingSystem.getAccount(accountID2));
 							}
 							break;
 							
@@ -214,6 +216,7 @@ public class Server {
 						objectOutputStream.writeObject(serverResponse);
 						
 						if (((clientRequest.getType() == RequestType.LOGOUT) || (clientRequest.getType() == RequestType.LOGIN)) && (statusResult == true)) {
+							System.out.println();
 							break;
 						}
 						

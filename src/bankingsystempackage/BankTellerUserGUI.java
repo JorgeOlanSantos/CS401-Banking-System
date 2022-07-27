@@ -6,6 +6,11 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -32,7 +37,15 @@ public class BankTellerUserGUI implements ActionListener {
 	JTextField userId;
 	JPasswordField passText;
 	
-	public BankTellerUserGUI(String name){
+	User currentUser;
+	
+	private Socket socket;
+	private ObjectOutputStream objectOutputStream;
+    private ObjectInputStream objectInputStream;
+	
+	public BankTellerUserGUI(RequestLogin requestLogin) throws UnknownHostException, IOException{
+		
+		currentUser = requestLogin.getUser();
 		
 		//button set up: dimensions, placement, color
 		login.setBounds(600,150,100,40);
@@ -65,7 +78,7 @@ public class BankTellerUserGUI implements ActionListener {
 		
 		
 		//labels
-		label1.setText("Welcome " + name);								//text
+		label1.setText("Welcome " + currentUser.getName());								//text
 		label1.setHorizontalAlignment(JLabel.LEFT);			//placement within panel 
 		label1.setVerticalAlignment(JLabel.CENTER);
 		label1.setForeground(Color.white);
@@ -90,7 +103,7 @@ public class BankTellerUserGUI implements ActionListener {
 		frame.setSize(1000, 750); 					//sets frame size
 		frame.setLayout(new BorderLayout());
 		frame.setResizable(false);  				//prevents frame from being resized 
-		//frame.setUndecorated(true);   remove the title bar
+		frame.setUndecorated(true);   //remove the title bar
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		//exits program 
 		frame.setBackground(new Color(0x006299));
 		
@@ -143,31 +156,44 @@ public class BankTellerUserGUI implements ActionListener {
 		
 		frame.setVisible(true);	//makes frame visible
 		
+		
+		//-----------------socket-----------------
+		socket = new Socket("localhost", 7777);
+		objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+	    objectInputStream = new ObjectInputStream(socket.getInputStream());
+		
 	}
 
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == login) {
-		String id = userId.getText();
-		String password = passText.getText();
-		
-		//removes userId and password after pressing button
-		//userId.setText("");		
-		//passText.setText("");			
-		
-		//pass object here and wait for approval
-		
-		//if approved close this window and open OptionATMGUI
-		frame.dispose();
-		OptionATMGUI option = new OptionATMGUI("Matthew");
-		
-		//if not approved then send error message
-		/*JOptionPane.showMessageDialog(
-				null, 
-				"The user ID or password is incorrect. This is easily corrected by typing the correct user name and password.", 
-				"Failed Login", 
-				JOptionPane.ERROR_MESSAGE);*/
+			String id = userId.getText();
+			String password = passText.getText();
+			Login login = new Login(id, password);
+			
+			//removes userId and password after pressing login button
+			userId.setText("");		
+			passText.setText("");			
+			
+			Request request = new RequestLogin(login);
+			try {
+				objectOutputStream.writeObject(request);
+				RequestLogin response = (RequestLogin)objectInputStream.readObject();
+				if (response.getStatus() == Status.SUCCESS) {
+					if (response.getUser() instanceof Customer) {
+						frame.dispose();
+						System.out.println(((RequestLogin)response).getUser().getName());
+						OptionATMGUI usersignin = new OptionATMGUI(response);
+						socket.close();
+					} else {
+						System.out.println("Teller login invalid for customer");
+					}
+				}
+			} catch (IOException | ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		
 		

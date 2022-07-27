@@ -5,6 +5,11 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -30,7 +35,11 @@ public class BankTellerGUI implements ActionListener {
 	JTextField userId;
 	JPasswordField passText;
 	
-	public BankTellerGUI(){
+	private Socket socket;
+	private ObjectOutputStream objectOutputStream;
+    private ObjectInputStream objectInputStream;
+	
+	public BankTellerGUI() throws UnknownHostException, IOException{
 		
 		//button
 		login.setBounds(115,200,65,25);
@@ -65,6 +74,7 @@ public class BankTellerGUI implements ActionListener {
 		frame.setSize(1000, 750); 					//sets frame size
 		frame.setLayout(new BorderLayout());
 		frame.setResizable(false);  				//prevents frame from being resized 
+		frame.setUndecorated(true);   //remove the title bar
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		//exits program 
 		frame.setBackground(new Color(0x006299));
 		
@@ -136,33 +146,57 @@ public class BankTellerGUI implements ActionListener {
 		
 		frame.setVisible(true);	//makes frame visible
 		
+		
+		//-----------------socket-----------------
+		socket = new Socket("localhost", 7777);
+		objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+        objectInputStream = new ObjectInputStream(socket.getInputStream());
 	}
 
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == login) {
-		String id = userId.getText();
-		String password = passText.getText();
-		
-		//removes userId and password after pressing button
-		//userId.setText("");		
-		//passText.setText("");			
-		
-		//pass object here and wait for approval
-		
-		//if approved close this window and open OptionATMGUI
-		//frame.dispose();
-		BankTellerUserGUI usersignin = new BankTellerUserGUI("Matthew");
-		
-		//if not approved then send error message
-		/*JOptionPane.showMessageDialog(
-				null, 
-				"The user ID or password is incorrect. This is easily corrected by typing the correct user name and password.", 
-				"Failed Login", 
-				JOptionPane.ERROR_MESSAGE);*/
+			String id = userId.getText();
+			String password = passText.getText();
+			Login login = new Login(id, password);
+			
+			//removes userId and password after pressing login button
+			userId.setText("");		
+			passText.setText("");			
+			
+			Request request = new RequestLogin(login);
+			try {
+				objectOutputStream.writeObject(request);
+				RequestLogin response = (RequestLogin)objectInputStream.readObject();
+				if (response.getStatus() == Status.SUCCESS) {
+					if (response.getUser() instanceof Customer) {
+						System.out.println("Customer login invalid for teller");
+					} else {
+						frame.dispose();
+						System.out.println(((RequestLogin)response).getUser().getName());
+						BankTellerUserGUI usersignin = new BankTellerUserGUI(response);
+						socket.close();
+					}
+				}
+			} catch (IOException | ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 	
+	public static void main(String[] args) throws ClassNotFoundException {
+		
+		try {
+			BankTellerGUI gui = new BankTellerGUI();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
+	}
 }

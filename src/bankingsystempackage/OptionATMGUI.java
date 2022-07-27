@@ -46,10 +46,23 @@ public class OptionATMGUI implements ActionListener{
 	private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
     
-    private User currentCustomer;
+    private Customer currentCustomer;
     private ArrayList<Account> accounts;
+    
+    private int currentAccountPos;
 	
     public OptionATMGUI(RequestLogin login) throws IOException {
+    	//-----------------socket-----------------
+		socket = new Socket("localhost", 7777);
+		objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+		objectInputStream = new ObjectInputStream(socket.getInputStream());	
+		
+		//save initial login data
+		this.currentCustomer = (Customer)login.getUser();
+		this.accounts = login.getAccounts();
+		currentAccountPos = 0;
+		
+		
 		
 		//set up buttons and there settings
 		withdrawal.setBounds(100,70,300,70);
@@ -95,19 +108,21 @@ public class OptionATMGUI implements ActionListener{
 		label1.setForeground(Color.white);
 		label1.setFont(new Font("Futura", Font.BOLD, 40));
 		
-		label2.setText("Account #1");					//insert account 1 name and money amount here
+		label2.setText("Account #1: $" + accounts.get(0).getBalance());					//insert account 1 name and money amount here
 		label2.setBounds(50,100,200,25);
 		label2.setForeground(Color.white);
 		label2.setFont(new Font("Futura", Font.BOLD, 15));
 		
-		label3.setText("Account #2");					//insert account 2 name and money amount here
-		label3.setBounds(400,100,200,25);
-		label3.setForeground(Color.white);
-		label3.setFont(new Font("Futura", Font.BOLD, 15));
+		if (accounts.size() > 1) {
+			label3.setText("Account #2 $" + accounts.get(1).getBalance());					//insert account 2 name and money amount here
+			label3.setBounds(400,100,200,25);
+			label3.setForeground(Color.white);
+			label3.setFont(new Font("Futura", Font.BOLD, 15));
+		}
 		
 		//3rd account could go here 
 		
-		label4.setText("Current Account: ");
+		label4.setText("Current Account: Account#1");
 		label4.setBounds(50,50,200,25);
 		label4.setForeground(Color.orange);
 		label4.setFont(new Font("Futura ", Font.BOLD, 15));
@@ -116,7 +131,7 @@ public class OptionATMGUI implements ActionListener{
 		frame.setSize(1000, 750); 					//sets frame size
 		frame.setLayout(new BorderLayout());
 		frame.setResizable(false);  				//prevents frame from being resized 
-		//frame.setUndecorated(true);   remove the title bar
+		frame.setUndecorated(true);   //remove the title bar
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		//exits program 
 		//frame.getContentPane().setBackground(new Color(0x123456));
 		
@@ -176,16 +191,6 @@ public class OptionATMGUI implements ActionListener{
 
 		
 		frame.setVisible(true);	//makes frame visible
-		
-		
-		//-----------------socket-----------------
-		socket = new Socket("localhost", 7777);
-		objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-		objectInputStream = new ObjectInputStream(socket.getInputStream());	
-		
-		//save initial login data
-		this.currentCustomer = (Customer)login.getUser();
-		this.accounts = login.getAccounts();
 	}
     
 	public boolean updateAccount(Account account) {
@@ -202,48 +207,88 @@ public class OptionATMGUI implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == withdrawal) {
 			
-			RequestWithdraw request = new RequestWithdraw(amount, accountID, description);
-			objectOutputStream.writeObject(request);
-			RequestWithdraw response = (RequestWithdraw)objectInputStream.readObject();
-			if (response.getStatus() == Status.SUCCESS) {
-				updateAccount(response.getAccount());
+			GetAmountGUI amountGUI = new GetAmountGUI();
+			
+			RequestWithdraw request = new RequestWithdraw(amountGUI.getAmount(), accounts.get(currentAccountPos).getAccountID(), "");
+			try {
+				objectOutputStream.writeObject(request);
+				RequestWithdraw response = (RequestWithdraw)objectInputStream.readObject();
+				if (response.getStatus() == Status.SUCCESS) {
+					updateAccount(response.getAccount());
+				}
+			} catch (IOException | ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		}
 		
 		if(e.getSource() == deposit) {
 			
-			RequestDeposit request = new RequestDeposit(amount, accountID, description);
-			objectOutputStream.writeObject(request);
-			RequestDeposit response = (RequestDeposit)objectInputStream.readObject();
-			if (response.getStatus() == Status.SUCCESS) {
-				updateAccount(response.getAccountID());
+			GetAmountGUI amountGUI = new GetAmountGUI();
+			
+			RequestDeposit request = new RequestDeposit(amountGUI.getAmount(), accounts.get(currentAccountPos).getAccountID(), "");
+			try {
+				objectOutputStream.writeObject(request);
+				RequestDeposit response = (RequestDeposit)objectInputStream.readObject();
+				if (response.getStatus() == Status.SUCCESS) {
+					updateAccount(response.getAccount());
+				}
+			} catch (IOException | ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		}
 	
 		if(e.getSource() == transfer) {
 			
-			RequestTransfer request = new RequestTransfer(amount, account1, account2, description);
-			objectOutputStream.writeObject(request);
-			RequestTransfer response = (RequestTransfer)objectInputStream.readObject();
-			if (response.getStatus() == Status.SUCCESS) {
-				RequestGetCustomerAccounts request2 = new RequestCustomerAccounts(customerID);
+			if (accounts.size() >= 2) {
+				GetAmountGUI amountGUI = new GetAmountGUI();
+				
+				int nextAccountPos = (currentAccountPos + 1) % 2;
+				RequestTransfer request = new RequestTransfer(amountGUI.getAmount(), 
+						accounts.get(currentAccountPos).getAccountID(), 
+						accounts.get(nextAccountPos).getAccountID(), "");
+				try {
+					objectOutputStream.writeObject(request);
+					RequestTransfer response = (RequestTransfer)objectInputStream.readObject();
+					if (response.getStatus() == Status.SUCCESS) {
+						updateAccount(response.getAccount1());
+						updateAccount(response.getAccount2());
+					}
+				} catch (IOException | ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
+			
 		}
 	
 		if(e.getSource() == switchAcc) {
-		
-			if (response.getStatus() == Status.SUCCESS) {
-				updateAccount(response.getAccount());
+			
+			if (accounts.size() >= 2) {
+				
+				currentAccountPos = (currentAccountPos + 1) % 2;
+				label4.setText("Current Account: Account#" + (currentAccountPos + 1));
+				
 			}
+		
 		}
 		
 		if(e.getSource() == cancel) {
 			RequestLogout request = new RequestLogout();
-			objectOutputStream.writeObject(request);
-			socket.close();
-			objectOutputStream.close();
-			objectInputStream.close();
-			System.exit(0);
+			try {
+				objectOutputStream.writeObject(request);
+				RequestLogout response = (RequestLogout)objectInputStream.readObject();
+				if (response.getStatus() == Status.SUCCESS) {
+					socket.close();
+					objectOutputStream.close();
+					objectInputStream.close();
+					System.exit(0);
+				}
+			} catch (IOException | ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		
 	}

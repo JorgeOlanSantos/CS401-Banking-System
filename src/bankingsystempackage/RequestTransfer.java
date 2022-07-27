@@ -2,9 +2,10 @@ package bankingsystempackage;
 
 @SuppressWarnings("serial")
 public class RequestTransfer extends Request {
-	double amount;
-	String accountID1, accountID2;
-	String description;
+	private double amount;
+	private String accountID1, accountID2;
+	private String description;
+	private Account account1, account2;
 	
 	public RequestTransfer(double amount, String accountID1, String accountID2, String description) {
 		this.type = RequestType.TRANSFER;
@@ -24,6 +25,22 @@ public class RequestTransfer extends Request {
 	
 	public String getAccountID2() {
 		return accountID2;
+	}
+	
+	public Account getAccount1() {
+		return account1;
+	}
+	
+	public Account getAccount2() {
+		return account2;
+	}
+	
+	public void setAccount1(Account account) {
+		account1 = account;
+	}
+	
+	public void setAccount2(Account account) {
+		account2 = account;
 	}
 	
 	public String toString() {
