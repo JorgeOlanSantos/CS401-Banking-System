@@ -5,7 +5,7 @@ public class RequestGetAccount extends Request {
 	private String accountID;
 	private Account account;
 	
-	RequestGetAccount(String accountID) {
+	public RequestGetAccount(String accountID) {
 		type = RequestType.GETACCOUNT;
 		this.accountID = accountID;
 		account = null;
