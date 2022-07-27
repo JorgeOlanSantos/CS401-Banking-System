@@ -6,7 +6,7 @@ public class RequestWithdraw extends Request {
 	String accountID;
 	String description;
 	
-	RequestWithdraw(double amount, String accountID, String description) {
+	public RequestWithdraw(double amount, String accountID, String description) {
 		this.type = RequestType.WITHDRAW;
 		this.amount = amount;
 		this.accountID = accountID;
