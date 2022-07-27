@@ -5,7 +5,7 @@ public class RequestCreateCustomer extends Request {
 
 	private Customer customer;
 	
-	RequestCreateCustomer(Customer customer) {
+	public RequestCreateCustomer(Customer customer) {
 		type = RequestType.CREATECUSTOMER;
 		this.customer = customer;
 	}
