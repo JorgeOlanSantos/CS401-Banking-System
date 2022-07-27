@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;                // To code @Test methods
 
 import bankingsystempackage.*;
 
-class UserTest { // Test Customer class
+public class UserTest { // Test Customer class
 	// Test input
 	String testName = "Name";
 	String testID = "ID";
