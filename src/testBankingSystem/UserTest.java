@@ -14,7 +14,7 @@ public class UserTest { // Test Customer class
 	String testPassword = "Password";
 	
 	@Test
-	void testConstructorName() {
+	public void testConstructorName() {
 		// Create new User object with test input
 		bankingsystempackage.User user = new bankingsystempackage.User(testName, testID, testPassword);
 		
@@ -22,7 +22,7 @@ public class UserTest { // Test Customer class
 	}
 	
 	@Test
-	void testConstructorLoginID() {
+	public void testConstructorLoginID() {
 		// Create new User object with test input
 		bankingsystempackage.User user = new bankingsystempackage.User(testName, testID, testPassword);
 		
@@ -30,7 +30,7 @@ public class UserTest { // Test Customer class
 	}
 	
 	@Test
-	void testConstructorLoginPassword() {
+	public void testConstructorLoginPassword() {
 		// Create new User object with test input
 		bankingsystempackage.User user = new bankingsystempackage.User(testName, testID, testPassword);
 		
@@ -38,7 +38,7 @@ public class UserTest { // Test Customer class
 	}
 	
 	@Test
-	void testConstructorLoginToString() {
+	public void testConstructorLoginToString() {
 		// Create new User object with test input
 		User user = new User(testName, testID, testPassword);
 		
