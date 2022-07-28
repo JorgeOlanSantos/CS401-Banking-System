@@ -35,7 +35,7 @@ Louie Vargas
 # UML Diagrams
 
 ## Core Classes
-![](PlantUML Files/Class Diagrams/draft_6/Banking System.png)
+![](PlantUML_Files/Class_Diagrams/draft_6/Banking_System.png)
 
 ### Core Classes Details
 - BankingSystem is the main class that handles received Requests by the client.
