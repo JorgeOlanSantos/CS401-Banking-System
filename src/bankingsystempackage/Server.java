@@ -14,8 +14,8 @@ public class Server {
 	public static void main(String[] args) throws IOException {
 		
 		BankingSystem bankingSystem = new BankingSystem();
-		bankingSystem.dummyData();
-		bankingSystem.saveData();
+		//bankingSystem.dummyData();
+		//bankingSystem.saveData();
 		bankingSystem.readData();
 		//System.out.println(bankingSystem.customersToString());
 		
@@ -35,7 +35,7 @@ public class Server {
 		
 		System.out.println("Starting Server...");
 		ServerSocket ss = new ServerSocket(port);
-		System.out.println("Server Address: " + InetAddress.getLocalHost().getHostAddress().trim() + ":" + port);
+		//System.out.println("Server Address: " + InetAddress.getLocalHost().getHostAddress().trim() + ":" + port);
 		System.out.println("Awaiting Connections...\n");
 		
 		try {

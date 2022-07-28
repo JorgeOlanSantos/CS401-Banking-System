@@ -196,6 +196,7 @@ public class BankingSystem {
 			// Add customer to account if it exists
 			account.addCustomerID(customerID);
 			
+			saveData();
 			return true;
 		}
 		catch(Exception e) {
@@ -218,6 +219,7 @@ public class BankingSystem {
 				
 				accounts.remove(i); // Remove found account
 				
+				saveData();
 				return true;
 			}
 		}
@@ -234,6 +236,7 @@ public class BankingSystem {
 				// Close customer's non-joint accounts first
 				
 				customers.remove(i); // Remove found customer
+				saveData();
 				return true;
 			}
 		}
@@ -245,6 +248,7 @@ public class BankingSystem {
 		try {
 			// Remove customer from account if it exists
 			if(account.removeCustomer(customerID)) {
+				saveData();
 				return true;
 			}
 			else
@@ -284,6 +288,7 @@ public class BankingSystem {
 		for (int i = 0; i < accounts.size(); i++) {
 			if (accounts.get(i).getAccountID().equals(accountID)) {
 				accounts.get(i).deposit(amount);
+				saveData();
 				return true;
 			}
 		}
@@ -329,6 +334,7 @@ public class BankingSystem {
 		if ((firstIDpos >= 0) && (secondIDpos >= 0)) {
 			accounts.get(firstIDpos).withdraw(amount);
 			accounts.get(secondIDpos).deposit(amount);
+			saveData();
 			return true;
 		} else {
 			return false;
@@ -342,6 +348,7 @@ public class BankingSystem {
 			if (accounts.get(i).getAccountID().equals(accountID)) {
 				if (accounts.get(i).getBalance() >= amount) {
 					accounts.get(i).withdraw(amount);
+					saveData();
 					return true;
 				} else {
 					return false;
@@ -357,6 +364,7 @@ public class BankingSystem {
 		for (int i = 0; i < accounts.size(); i++) {
 			if (accounts.get(i).getAccountID().equals(accountID)) {
 				//accounts.get(i).addHistory(action);
+				saveData();
 				return true;
 			}
 		}
