@@ -1,11 +1,11 @@
 # CS401 Group Project - Banking System
 
 ## Group Members
-Michael Conant
-Jorge Olan Santos
-Matthew Knight
-Terilyn Truong
-Louie Vargas
+Michael Conant<br>
+Jorge Olan Santos<br>
+Matthew Knight<br>
+Terilyn Truong<br>
+Louie Vargas<br>
 
 # Project Summary
 
