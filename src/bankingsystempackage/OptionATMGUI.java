@@ -74,6 +74,7 @@ public class OptionATMGUI implements ActionListener{
 	
 	// socket
 	
+<<<<<<< HEAD
 	private Socket socket;
 	private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
@@ -95,6 +96,9 @@ public class OptionATMGUI implements ActionListener{
 		currentAccountPos = 0;
 		
 		
+=======
+public OptionATMGUI(String name) {
+>>>>>>> branch 'main' of git@github.com:michaelconant/CS401-Banking-System.git
 		
 		//set up buttons and there settings
 		withdrawal.setBounds(100,70,300,70);
