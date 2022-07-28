@@ -1,0 +1,817 @@
+<<<<<<< HEAD
+@startuml Banking System
+'#Major Classes
+'#--------------------------------------------------
+abstract class User {
+    # name: String
+    # ID: String
+    __
+    .. Constructors ..
+    + User(String, String, String)
+    .. Getters ..
+    + getName(): String
+    + getLogin(): Login
+    + getID(): String
+    + getPassword(): String
+    + getLoginString(): String
+    .. Setters ..
+    + setName(String): void
+    .. Other Methods ..
+    + toString(): String
+}
+
+class Login {
+    - ID: String
+    - password: String
+    __
+    .. Constructors ..
+    + Login(String, String)
+    .. Getters ..
+    + getID(): String
+    + getPassword(): String
+    .. Other Methods ..
+    + verifyLogin(Login): boolean
+    + toString(): String
+}
+
+class Customer {
+    - address: String
+    - pin: short
+    - loggedIn: boolean
+    __
+    .. Constructors ..
+    + Customer(Login login, String name, short pin)
+    + Customer(String name, String ID, String password, short pin, String address)
+    .. Getters ..
+    + getAddress(): String
+    + getPin(): short
+    + getLoggedIn(): boolean
+    .. Setters ..
+    + setAddress(String): void
+    + setPin(short): void
+    + setLoggedIn(boolean): void
+    .. Other Methods ..
+    + toString(): String
+}
+
+class Account {
+    - accountID: String
+    - balance: double
+    - customerIDS: ArrayList<String>
+    - history: ArrayList<Action>
+    __
+    .. Constructors ..
+    + Account()
+    + Account(String, ArrayList, double)
+    .. Getters ..
+    + getAccountID(): String
+    + getBalance(): double
+    + getHistory(): ArrayList<Action>
+    + getCustomerIDS(): ArrayList<String>
+    .. Other Methods..
+    + depost(double): void
+    + withdraw(double): boolean
+    + addCustomerID(String): void
+    + addHistory(Action): void
+    + removeCustomer(String): boolean
+}
+
+class BankingSystem {
+    __
+    .. Constructors ..
+    + BankingSystem()
+    .. Getters ..
+    + getTeller(Login): User
+    + getCustomer(Login): Customer
+    + getTellers(): ArrayList<User>
+    + getCustomers(): ArrayList<Customer>
+    + getAccounts(): ArrayList<Account>
+    + getCustomerAccounts(String): ArrayList<Accounts>
+    .. Data Methods..
+    + readData()
+    + saveData()
+    .. Account/Customer Related Methods ..
+    + createAccount(Account): boolean
+    + createCustomer(Customer): boolean
+    + closeAccount(String): boolean
+    + removeCustomer(String): boolean
+    .. Request Methods ..
+    + login(Login): User
+    + deposit(String, double)
+    + getAccount(String): Account
+    + getCustomer(String): Customer
+    + transfer(String, String, double): boolean
+    + withdraw(String, double): boolean
+    + deleteCustomer(): void
+    .. Other Methods ..
+    + addHistoryToAccount(String, Transaction)
+    + customersToString(): String
+    .. Testing ..
+    dummyData(): void
+}
+
+
+'#Other Classes
+'#--------------------------------------------------
+enum TransactionType {
+    WITHDRAW
+    DEPOSIT
+    TRANSFER
+}
+
+class Transaction {
+    - date: Date
+    - description: String
+    - amount: double
+    - type: TransactionType
+    __
+    .. Constructors ..
+    + Transaction(TransactionType, double, String)
+    .. Getters ..
+    + getDate(): Date
+    + getDescription(): String
+    + getAmount(): double
+    + getType(): ActionType
+}
+
+
+
+'#Class Relations
+'#--------------------------------------------------
+Account "1..*" *-- Transaction
+
+Transaction "1" *-- TransactionType
+
+BankingSystem "0..*" *-d- "1" Customer
+BankingSystem "0..*" *-r- "1" Account
+BankingSystem "0..*" *-l- "1" User
+
+Login -r-* "1" Customer
+Login -u-* "1" User
+
+User <|-- Customer
+
+
+
+'#Styling
+'#--------------------------------------------------
+!theme vibrant
+
+'#remove line curves but the lines are still not straight
+'skinparam linetype polyline
+'#make the lines straight
+skinparam linetype ortho
+@enduml
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@startuml Request
+
+'#Requests
+'#--------------------------------------------------
+enum RequestType {
+    DEPOSIT,
+    WITHDRAW,
+    TRANSFER,
+    CLOSEACCOUNT,
+    CREATEACCOUNT,
+    CREATECUSTOMER,
+    GETACCOUNT,
+    GETCUSTOMER,
+    GETCUSTOMERACCOUNTS,
+    LOGIN,
+    LOGOUT,
+    REMOVECUSTOMER
+}
+
+enum Status {
+    PENDING,
+    FAIL,
+    SUCCESS
+}
+
+abstract class Request {
+    # date: Date
+    __
+    .. Constuctors ..
+    + Request()
+    + Request(RequestType)
+    + Request(RequestType, String)
+    .. Getters ..
+    + getType(): RequestType
+    + getDate(): Date
+    + getStatus(): Status
+    .. Setters ..
+    + setStatus(): Status
+    .. Other Methods ..
+    + toString(): String
+}
+note top: Base Request Class, Polymorphism is used to send and recieve required data based on the type request.
+
+class RequestCloseAccount {
+    - accountID: String
+    __
+    .. Constuctors ..
+    + RequestCloseAccount(String)
+    .. Getters ..
+    + getAccountID(): String
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestCreateAccount {
+    - account: Account
+    __
+    .. Constuctors ..
+    + RequestCreateAccount(Account)
+    .. Getters ..
+    + getAccountID(): Account
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestCreateCustomer {
+    - customer: Customer
+    __
+    .. Constuctors ..
+    + RequestCreateCustomer(Customer)
+    .. Getters ..
+    + getCustomer(): Customer
+}
+
+class RequestDeposit {
+    - amount: double
+    - accountID: String
+    - description: String
+    __
+    .. Constuctors ..
+    + RequestDeposit(double, String, String)
+    .. Getters ..
+    + getAmount(): double
+    + getAccountID(): String
+    + getDescription(): String
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestGetAccount {
+    - accountID: String
+    - account: Account
+    __
+    .. Constuctors ..
+    + RequestGetAccount(String)
+    .. Getters ..
+    + getAccountID(): String
+    + getAccount(): Account
+    .. Setters ..
+    + setAccount(Account): void
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestGetCustomer {
+    - customerID: String
+    __
+    .. Constuctors ..
+    + RequestCloseAccount(String)
+    .. Getters ..
+    + getCustomerID(): String
+    + getCustomer(): Customer
+    .. Setters ..
+    + setCustomer(Customer): void
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestGetCustomerAccounts {
+    - customerID: String
+    - accounts: ArrayList<Account>
+    __
+    .. Constuctors ..
+    + RequestGetCustomerAccounts(String)
+    .. Getters ..
+    + getCustomerID(): String
+    + getAccounts(): ArrayList<Account>
+    .. Setters ..
+    + setAccounts(ArrayList<Account>): void
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestLogin {
+    - login: Login
+    - user: User
+    - accounts: ArrayList<Account>
+    __
+    .. Constuctors ..
+    + RequestLogin(Login)
+    .. Getters ..
+    + getLogin(): Login
+    + getUser(): User
+    .. Setters ..
+    + setUser(User): void
+    + setAccounts(ArrayList<Account>): void
+    + addAccount(Account): void
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestLogout {
+    + RequestLogout()
+}
+
+class RequestRemoveCustomer {
+    - customerID: String
+    __
+    .. Constuctors ..
+    + RequestRemoveCustomer(String)
+    .. Getters ..
+    + getCustomerID(): String
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestTransfer {
+    - amount: double
+    - accountID1: String
+    - accountID2: String
+    - description: String
+    __
+    .. Constuctors ..
+    + RequestTransfer(double, String, String, String)
+    .. Getters ..
+    + getAmount(): double
+    + getAccountID1(): String
+    + getAccountID2(): String
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestWithdraw {
+    - amount: double
+    - accountID: String
+    - description: String
+    __
+    .. Constuctors ..
+    + RequestWithdraw(double, String, String)
+    .. Getters ..
+    + getAmount(): double
+    + getAccountID(): String
+    + getDescription(): String
+    .. Other Methods ..
+    + toString(): String
+}
+
+
+
+'#Class Relations
+'#--------------------------------------------------
+Request "1" *-u- RequestType
+Request "1" *-u- Status
+
+Request <|-l- RequestCloseAccount
+Request <|-l- RequestCreateAccount
+Request <|-l- RequestCreateCustomer
+Request <|-l- RequestDeposit
+Request <|-d- RequestGetAccount
+Request <|-d- RequestGetCustomer
+Request <|-d- RequestGetCustomerAccounts
+Request <|-d- RequestLogin
+Request <|-r- RequestLogout
+Request <|-r- RequestRemoveCustomer
+Request <|-r- RequestTransfer
+Request <|-r- RequestWithdraw
+
+
+'#Styling
+'#--------------------------------------------------
+!theme reddress-darkgreen
+
+'skinparam groupInheritance 4
+
+'#remove line curves but the lines are still not straight
+skinparam linetype polyline
+'#make the lines straight
+'skinparam linetype ortho
+@enduml
+=======
+@startuml Banking System
+'#Major Classes
+'#--------------------------------------------------
+abstract class User {
+    # name: String
+    # ID: String
+    __
+    .. Constructors ..
+    + User(String, String, String)
+    .. Getters ..
+    + getName(): String
+    + getLogin(): Login
+    + getID(): String
+    + getPassword(): String
+    + getLoginString(): String
+    .. Setters ..
+    + setName(String): void
+    .. Other Methods ..
+    + toString(): String
+}
+
+class Login {
+    - ID: String
+    - password: String
+    __
+    .. Constructors ..
+    + Login(String, String)
+    .. Getters ..
+    + getID(): String
+    + getPassword(): String
+    .. Other Methods ..
+    + verifyLogin(Login): boolean
+    + toString(): String
+}
+
+class Customer {
+    - address: String
+    - pin: short
+    - loggedIn: boolean
+    __
+    .. Constructors ..
+    + Customer(Login login, String name, short pin)
+    + Customer(String name, String ID, String password, short pin, String address)
+    .. Getters ..
+    + getAddress(): String
+    + getPin(): short
+    + getLoggedIn(): boolean
+    .. Setters ..
+    + setAddress(String): void
+    + setPin(short): void
+    + setLoggedIn(boolean): void
+    .. Other Methods ..
+    + toString(): String
+}
+
+class Account {
+    - accountID: String
+    - balance: double
+    - customerIDS: ArrayList<String>
+    - history: ArrayList<Action>
+    __
+    .. Constructors ..
+    + Account()
+    + Account(String, ArrayList, double)
+    .. Getters ..
+    + getAccountID(): String
+    + getBalance(): double
+    + getHistory(): ArrayList<Action>
+    + getCustomerIDS(): ArrayList<String>
+    .. Other Methods..
+    + depost(double): void
+    + withdraw(double): boolean
+    + addCustomerID(String): void
+    + addHistory(Action): void
+    + removeCustomer(String): boolean
+}
+
+class BankingSystem {
+    __
+    .. Constructors ..
+    + BankingSystem()
+    .. Getters ..
+    + getTeller(Login): User
+    + getCustomer(Login): Customer
+    + getTellers(): ArrayList<User>
+    + getCustomers(): ArrayList<Customer>
+    + getAccounts(): ArrayList<Account>
+    + getCustomerAccounts(String): ArrayList<Accounts>
+    .. Data Methods..
+    + readData()
+    + saveData()
+    .. Account/Customer Related Methods ..
+    + createAccount(Account): boolean
+    + createCustomer(Customer): boolean
+    + closeAccount(String): boolean
+    + removeCustomer(String): boolean
+    .. Request Methods ..
+    + login(Login): User
+    + deposit(String, double)
+    + getAccount(String): Account
+    + getCustomer(String): Customer
+    + transfer(String, String, double): boolean
+    + withdraw(String, double): boolean
+    + deleteCustomer(): void
+    .. Other Methods ..
+    + addHistoryToAccount(String, Transaction)
+    + customersToString(): String
+    .. Testing ..
+    dummyData(): void
+}
+
+
+'#Other Classes
+'#--------------------------------------------------
+enum TransactionType {
+    WITHDRAW
+    DEPOSIT
+    TRANSFER
+}
+
+class Transaction {
+    - date: Date
+    - description: String
+    - amount: double
+    - type: TransactionType
+    __
+    .. Constructors ..
+    + Transaction(TransactionType, double, String)
+    .. Getters ..
+    + getDate(): Date
+    + getDescription(): String
+    + getAmount(): double
+    + getType(): ActionType
+}
+
+
+
+'#Class Relations
+'#--------------------------------------------------
+Account "1..*" *-- Transaction
+
+Transaction "1" *-- TransactionType
+
+BankingSystem "0..*" *-d- "1" Customer
+BankingSystem "0..*" *-r- "1" Account
+BankingSystem "0..*" *-l- "1" User
+
+Login -r-* "1" Customer
+Login -u-* "1" User
+
+User <|-- Customer
+
+
+
+'#Styling
+'#--------------------------------------------------
+!theme vibrant
+
+'#remove line curves but the lines are still not straight
+'skinparam linetype polyline
+'#make the lines straight
+skinparam linetype ortho
+@enduml
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@startuml Request
+
+'#Requests
+'#--------------------------------------------------
+enum RequestType {
+    DEPOSIT,
+    WITHDRAW,
+    TRANSFER,
+    CLOSEACCOUNT,
+    CREATEACCOUNT,
+    CREATECUSTOMER,
+    GETACCOUNT,
+    GETCUSTOMER,
+    GETCUSTOMERACCOUNTS,
+    LOGIN,
+    LOGOUT,
+    REMOVECUSTOMER
+}
+
+enum Status {
+    PENDING,
+    FAIL,
+    SUCCESS
+}
+
+abstract class Request {
+    # date: Date
+    __
+    .. Constuctors ..
+    + Request()
+    + Request(RequestType)
+    + Request(RequestType, String)
+    .. Getters ..
+    + getType(): RequestType
+    + getDate(): Date
+    + getStatus(): Status
+    .. Setters ..
+    + setStatus(): Status
+    .. Other Methods ..
+    + toString(): String
+}
+note top: Base Request Class, Polymorphism is used to send and recieve required data based on the type request.
+
+class RequestCloseAccount {
+    - accountID: String
+    __
+    .. Constuctors ..
+    + RequestCloseAccount(String)
+    .. Getters ..
+    + getAccountID(): String
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestCreateAccount {
+    - account: Account
+    __
+    .. Constuctors ..
+    + RequestCreateAccount(Account)
+    .. Getters ..
+    + getAccountID(): Account
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestCreateCustomer {
+    - customer: Customer
+    __
+    .. Constuctors ..
+    + RequestCreateCustomer(Customer)
+    .. Getters ..
+    + getCustomer(): Customer
+}
+
+class RequestDeposit {
+    - amount: double
+    - accountID: String
+    - description: String
+    __
+    .. Constuctors ..
+    + RequestDeposit(double, String, String)
+    .. Getters ..
+    + getAmount(): double
+    + getAccountID(): String
+    + getDescription(): String
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestGetAccount {
+    - accountID: String
+    - account: Account
+    __
+    .. Constuctors ..
+    + RequestGetAccount(String)
+    .. Getters ..
+    + getAccountID(): String
+    + getAccount(): Account
+    .. Setters ..
+    + setAccount(Account): void
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestGetCustomer {
+    - customerID: String
+    __
+    .. Constuctors ..
+    + RequestCloseAccount(String)
+    .. Getters ..
+    + getCustomerID(): String
+    + getCustomer(): Customer
+    .. Setters ..
+    + setCustomer(Customer): void
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestGetCustomerAccounts {
+    - customerID: String
+    - accounts: ArrayList<Account>
+    __
+    .. Constuctors ..
+    + RequestGetCustomerAccounts(String)
+    .. Getters ..
+    + getCustomerID(): String
+    + getAccounts(): ArrayList<Account>
+    .. Setters ..
+    + setAccounts(ArrayList<Account>): void
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestLogin {
+    - login: Login
+    - user: User
+    - accounts: ArrayList<Account>
+    __
+    .. Constuctors ..
+    + RequestLogin(Login)
+    .. Getters ..
+    + getLogin(): Login
+    + getUser(): User
+    .. Setters ..
+    + setUser(User): void
+    + setAccounts(ArrayList<Account>): void
+    + addAccount(Account): void
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestLogout {
+    + RequestLogout()
+}
+
+class RequestRemoveCustomer {
+    - customerID: String
+    __
+    .. Constuctors ..
+    + RequestRemoveCustomer(String)
+    .. Getters ..
+    + getCustomerID(): String
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestTransfer {
+    - amount: double
+    - accountID1: String
+    - accountID2: String
+    - description: String
+    __
+    .. Constuctors ..
+    + RequestTransfer(double, String, String, String)
+    .. Getters ..
+    + getAmount(): double
+    + getAccountID1(): String
+    + getAccountID2(): String
+    .. Other Methods ..
+    + toString(): String
+}
+
+class RequestWithdraw {
+    - amount: double
+    - accountID: String
+    - description: String
+    __
+    .. Constuctors ..
+    + RequestWithdraw(double, String, String)
+    .. Getters ..
+    + getAmount(): double
+    + getAccountID(): String
+    + getDescription(): String
+    .. Other Methods ..
+    + toString(): String
+}
+
+
+
+'#Class Relations
+'#--------------------------------------------------
+Request "1" *-u- RequestType
+Request "1" *-u- Status
+
+Request <|-l- RequestCloseAccount
+Request <|-l- RequestCreateAccount
+Request <|-l- RequestCreateCustomer
+Request <|-l- RequestDeposit
+Request <|-d- RequestGetAccount
+Request <|-d- RequestGetCustomer
+Request <|-d- RequestGetCustomerAccounts
+Request <|-d- RequestLogin
+Request <|-r- RequestLogout
+Request <|-r- RequestRemoveCustomer
+Request <|-r- RequestTransfer
+Request <|-r- RequestWithdraw
+
+
+'#Styling
+'#--------------------------------------------------
+!theme reddress-darkgreen
+
+'skinparam groupInheritance 4
+
+'#remove line curves but the lines are still not straight
+skinparam linetype polyline
+'#make the lines straight
+'skinparam linetype ortho
+@enduml
+>>>>>>> branch 'main' of git@github.com:michaelconant/CS401-Banking-System.git
