@@ -35,7 +35,7 @@ Louie Vargas
 # UML Diagrams
 
 ## Core Classes
-![](PlantUML_Files/Class_Diagrams/draft_6/Banking_System.png)
+![](pictures/Banking%20System.png)
 
 ### Core Classes Details
 - BankingSystem is the main class that handles received Requests by the client.
@@ -45,6 +45,7 @@ Louie Vargas
 
 
 ## Request Classes
+![](pictures/Request.png)
 
 ### Request Classes Details
 - Request is the base class that we use to send and receive messages between the client and server.
@@ -53,4 +54,14 @@ Louie Vargas
 - The server receives general request and with a switch statement we handle each type.
 - This allows us to have specialized date and methods for each request type.
 
-# GUI
+# GUI Templates
+- These are images that show how we image the GUI will look like.
+
+## ATM GUI
+![](pictures/atm%20login.png)
+![](pictures/atm%20options.png)
+
+## Teller GUI
+![](pictures/teller%20login.png)
+![](pictures/teller%20customer%20login.png)
+![](pictures/teller%20options.png)
